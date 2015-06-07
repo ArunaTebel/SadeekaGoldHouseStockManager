@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div>
+      
+        {{ form_label(form.category_name) }}
+        {{ form_errors(form.category_name) }}
+        {{ form_widget(form.category_name) }}
+    </div>
+    <div>
+        {{ form_label(form.serial_no) }}
+        {{ form_errors(form.serial_no) }}
+        {{ form_widget(form.serial_no) }}
+    </div>
+      <div>
+        {{ form_label(form.weight_g) }}
+        {{ form_errors(form.weight_g) }}
+        {{ form_widget(form.weight_g) }}
+    </div>
+      <div>
+        {{ form_label(form.weight_mg) }}
+        {{ form_errors(form.weight_mg) }}
+        {{ form_widget(form.weight_mg) }}
+    </div>
+    <div>
+        {{ form_label(form.Save) }}
+        {{ form_widget(form.Save) }}
+    </div>
+   
+
+{{ form_end(form) }}

@@ -1,0 +1,19 @@
+StockManagerBundle\Entity\Category:
+    type: entity
+    table: null
+    repositoryClass: StockManagerBundle\Entity\CategoryRepository
+    id:
+        category_id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        category_name:
+            type: string
+            length: 255            
+        category_code:
+            type: string
+            length: 4
+   
+

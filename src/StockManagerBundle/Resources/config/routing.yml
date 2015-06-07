@@ -1,0 +1,27 @@
+stock_manager_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: StockManagerBundle:Default:index }
+    
+StockManagerBundle_add_category:
+    pattern:  /addCategory
+    defaults: { _controller: StockManagerBundle:Stock:addCategory }
+    requirements:
+        _method:  GET|POST
+        
+StockManagerBundle_add_item:
+    pattern:  /addItem
+    defaults: { _controller: StockManagerBundle:Stock:addItem }
+    requirements:
+        _method:  GET|POST
+
+StockManagerBundle_add_sales:
+    pattern:  /addSales
+    defaults: { _controller: StockManagerBundle:Stock:addSales }
+    requirements:
+        _method:  GET|POST
+        
+StockManagerBundle_view_reports:
+    pattern:  /viewReport
+    defaults: { _controller: StockManagerBundle:Stock:viewReport }
+    requirements:
+        _method:  GET|POST

@@ -1,5 +1,8 @@
 <?php
-namespace DemoBundle\Entity;
+// src/Acme/UserBundle/Entity/User.php
+
+namespace StockManagerBundle\Entity;
+
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**

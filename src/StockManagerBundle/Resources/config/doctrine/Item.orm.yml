@@ -9,9 +9,8 @@ StockManagerBundle\Entity\Item:
             generator:
                 strategy: AUTO
     fields:
-        category_name:
-            type: string
-            length: 255
+        category_id:
+            type: integer
         serial_no:
             type: string
             length: 255
@@ -24,6 +23,6 @@ StockManagerBundle\Entity\Item:
            targetEntity: Category
            inversedBy: items
            joinColumn: 
-               name: category_name
-               referencedColumnName: category_name
+               name: category_id
+               referencedColumnName: category_id
  

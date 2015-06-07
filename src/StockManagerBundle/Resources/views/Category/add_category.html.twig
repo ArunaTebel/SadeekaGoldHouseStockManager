@@ -1,20 +1,53 @@
-{{ form_start(form) }}
-    {{ form_errors(form) }}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-primary form-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Add Category</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    <div>
-        {{ form_label(form.category_name) }}
-        {{ form_errors(form.category_name) }}
-        {{ form_widget(form.category_name) }}
+            <div class="input-group form-widget">
+                {{ form_errors(form.category_name) }}
+                {{ form_widget(form.category_name, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.category_code) }}
+                {{ form_widget(form.category_code, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-submit-btn">
+                {{ form_label(form.Save) }}
+                {{ form_widget(form.Save, { 'attr': {'class': 'btn btn-primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-    <div>
-        {{ form_label(form.category_code) }}
-        {{ form_errors(form.category_code) }}
-        {{ form_widget(form.category_code) }}
+    <div class="panel panel-primary table-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Existing Categories</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category Id</th>
+                        <th>Category Code</th>
+                        <th>Category Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categoryList %}
+                        <tr>
+                            <td>{{ category.getCategoryId }}</td>
+                            <td>{{ category.getCategoryCode }}</td>
+                            <td>{{ category.getCategoryName }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div>
-        {{ form_label(form.Save) }}
-        {{ form_widget(form.Save) }}
-    </div>
-   
-
-{{ form_end(form) }}
+{% endblock %}

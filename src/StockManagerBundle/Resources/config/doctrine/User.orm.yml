@@ -1,6 +1,6 @@
 ## YAML Template.
 ---
-DemoBundle\Entity\User:
+StockManagerBundle\Entity\User:
     type:  entity
     table: fos_user
     id:

@@ -25,6 +25,18 @@ class StockController extends Controller {
         }
         return $this->render('StockManagerBundle:Category:add_category.html.twig', array('form' => $form->createView()));
     }
+    
+    public function editCategoryAction(Request $request) {
+        $category = new Category();
+        $form = $this->createForm(new CategoryType(), $category);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+        }
+        return $this->render('StockManagerBundle:Category:edit_category.html.twig', array('form' => $form->createView()));
+    }
 
     public function addItemAction(Request $request) {
         $item = new Item();
@@ -39,6 +51,20 @@ class StockController extends Controller {
             $em->flush();
         }
         return $this->render('StockManagerBundle:Item:add_item.html.twig', array('form' => $form->createView()));
+    }
+    public function editItemAction(Request $request) {
+        $item = new Item();
+        $form = $this->createForm(new ItemType(), $item);
+        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getEntityManager();
+        //$categories = $em->getRepository('StockManagerBundle:Entity:Category')->findAll();
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            //dump($item->getSerialNo());die();
+            $em->persist($item);
+            $em->flush();
+        }
+        return $this->render('StockManagerBundle:Item:edit_item.html.twig', array('form' => $form->createView()));
     }
 
     public function addSalesAction(Request $request) {

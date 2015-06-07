@@ -17,7 +17,7 @@ class SalesType extends AbstractType {
                 )
         );
         $builder->add('serial_no', 'entity', array('class' =>
-            'StockManagerBundle:Item', 'property' => 'serial_no'));
+            'StockManagerBundle:Item', 'property' => 'serial_no', 'required' => true));
         $builder->add('weight_g', 'number', array(
             'attr' => array(
                 'placeholder' => 'Weight (mg)',

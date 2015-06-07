@@ -11,6 +11,7 @@ use StockManagerBundle\Form\CategoryType;
 use StockManagerBundle\Entity\Sales;
 use StockManagerBundle\Form\SalesType;
 use StockManagerBundle\Form\ReportType;
+use Symfony\Component\HttpFoundation\Response;
 
 class StockController extends Controller {
 
@@ -35,7 +36,7 @@ class StockController extends Controller {
                     'categoryList' => $categoryList)
         );
     }
-    
+
     public function editCategoryAction(Request $request) {
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
@@ -73,6 +74,7 @@ class StockController extends Controller {
                     'itemList' => $itemList)
         );
     }
+
     public function editItemAction(Request $request) {
         $item = new Item();
         $form = $this->createForm(new ItemType(), $item);
@@ -203,6 +205,27 @@ class StockController extends Controller {
         }
         return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView()
                     , 'result' => null));
+    }
+
+    public function getItemSerialsByCategoryNameAction() {
+        $request = $this->container->get('request');
+        $categoryName = $request->request->get('categoryName');
+
+
+        $items = $this->getDoctrine()->getManager()
+                ->getRepository('StockManagerBundle:Item')
+                ->findAll();
+        $results = array();
+
+        foreach ($items as $item) {
+            if ($item->getCategory()->getCategoryName() == $categoryName) {
+                array_push($results, $item->getSerialNo());
+            }
+        }
+        if (sizeof($results) < 1) {
+            $results['success'] = false;
+        }
+        return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
     }
 
 }

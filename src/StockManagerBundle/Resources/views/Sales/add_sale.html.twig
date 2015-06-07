@@ -1,0 +1,47 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+<div>
+    {{ total_kg }}
+</div>
+<div>
+    {{ total_g }}
+</div>
+<div>
+    {{ total_mg }}
+</div>
+<div>
+
+    {{ form_label(form.category_name) }}
+    {{ form_errors(form.category_name) }}
+    {{ form_widget(form.category_name) }}
+</div>
+<div>
+    {{ count }}
+</div>
+<div>
+    {{ form_label(form.serial_no) }}
+    {{ form_errors(form.serial_no) }}
+    {{ form_widget(form.serial_no) }}
+</div>
+<div>
+    {{ form_label(form.weight_g) }}
+    {{ form_errors(form.weight_g) }}
+    {{ form_widget(form.weight_g) }}
+</div>
+<div>
+    {{ form_label(form.weight_mg) }}
+    {{ form_errors(form.weight_mg) }}
+    {{ form_widget(form.weight_mg) }}
+</div>
+<div>
+    {{ form_label(form.date) }}
+    {{ form_errors(form.date) }}
+    {{ form_widget(form.date) }}
+</div>
+<div>
+    {{ form_label(form.Sell) }}
+    {{ form_widget(form.Sell) }}
+</div>
+
+
+{{ form_end(form) }}

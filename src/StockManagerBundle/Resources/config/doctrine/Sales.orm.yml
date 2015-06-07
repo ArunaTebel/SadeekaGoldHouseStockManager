@@ -1,0 +1,23 @@
+StockManagerBundle\Entity\Sales:
+    type: entity
+    table: null
+    repositoryClass: StockManagerBundle\Entity\SalesRepository
+    id:
+        sales_id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        category_name:
+            type: string
+            length: 255
+        serial_no:
+            type: string
+            length: 255
+        weight_g:
+            type: integer
+        weight_mg:
+            type: integer
+        date:
+            type: date

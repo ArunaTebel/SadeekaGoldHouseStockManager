@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div>
+        {{ form_label(form.category_name) }}
+        {{ form_errors(form.category_name) }}
+        {{ form_widget(form.category_name) }}
+    </div>
+    <div>
+        {{ form_label(form.category_code) }}
+        {{ form_errors(form.category_code) }}
+        {{ form_widget(form.category_code) }}
+    </div>
+    <div>
+        {{ form_label(form.Save) }}
+        {{ form_widget(form.Save) }}
+    </div>
+   
+
+{{ form_end(form) }}

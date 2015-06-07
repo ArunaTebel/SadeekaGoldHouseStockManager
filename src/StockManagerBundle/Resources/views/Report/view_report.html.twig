@@ -1,0 +1,47 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div>
+      
+        {{ form_label(form.sales_range) }}
+        {{ form_errors(form.sales_range) }}
+        {{ form_widget(form.sales_range) }}
+    </div>
+    <div>
+        {{ form_label(form.category_name) }}
+        {{ form_errors(form.category_name) }}
+        {{ form_widget(form.category_name) }}
+    </div>
+      <div>
+        {{ form_label(form.date_from) }}
+        {{ form_errors(form.date_from) }}
+        {{ form_widget(form.date_from) }}
+    </div>
+      <div>
+        {{ form_label(form.date_to) }}
+        {{ form_errors(form.date_to) }}
+        {{ form_widget(form.date_to) }}
+    </div>
+    <div>
+        {{ form_label(form.Generate) }}
+        {{ form_widget(form.Generate) }}
+    </div>
+ {% if result!=null %}
+   <table>
+    <th>
+        <td>sales id</td>
+        <td>serial no</td>
+        <td>weight g</td>
+        <td>weight mg</td>
+    </th>
+    {% for sales in result %}
+        <tr>
+            <td>{{ sales.getSalesId }}</td>
+            <td>{{ sales.getSerialNo}}</td>
+            <td>{{ sales.getWeightG }}</td>
+            <td>{{ sales.getWeightMG}}</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{{ form_end(form) }}  

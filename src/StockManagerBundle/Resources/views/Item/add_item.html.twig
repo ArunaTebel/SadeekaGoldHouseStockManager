@@ -1,31 +1,67 @@
-{{ form_start(form) }}
-    {{ form_errors(form) }}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-primary form-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Add Item</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    <div>
-      
-        {{ form_label(form.category_name) }}
-        {{ form_errors(form.category_name) }}
-        {{ form_widget(form.category_name) }}
+            <div class="input-group form-widget">
+                {{ form_errors(form.category_name) }}
+                {{ form_widget(form.category_name, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.serial_no) }}
+                {{ form_widget(form.serial_no, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.weight_g) }}
+                {{ form_widget(form.weight_g, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.weight_mg) }}
+                {{ form_widget(form.weight_mg, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-submit-btn">
+                {{ form_label(form.Save) }}
+                {{ form_widget(form.Save, { 'attr': {'class': 'btn btn-primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-    <div>
-        {{ form_label(form.serial_no) }}
-        {{ form_errors(form.serial_no) }}
-        {{ form_widget(form.serial_no) }}
+    <div class="panel panel-primary table-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Existing Items</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Item Id</th>
+                        <th>Category</th>
+                        <th>Serial No.</th>
+                        <th>Weight (g)</th>
+                        <th>Weight (mg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in itemList %}
+                        <tr>
+                            <td>{{ category.getItemId }}</td>
+                            <td>{{ category.getCategoryName }}</td>
+                            <td>{{ category.getSerialNo }}</td>
+                            <td>{{ category.getWeightG }}</td>
+                            <td>{{ category.getWeightMg }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-      <div>
-        {{ form_label(form.weight_g) }}
-        {{ form_errors(form.weight_g) }}
-        {{ form_widget(form.weight_g) }}
-    </div>
-      <div>
-        {{ form_label(form.weight_mg) }}
-        {{ form_errors(form.weight_mg) }}
-        {{ form_widget(form.weight_mg) }}
-    </div>
-    <div>
-        {{ form_label(form.Save) }}
-        {{ form_widget(form.Save) }}
-    </div>
-   
-
-{{ form_end(form) }}
+{% endblock %}

@@ -18,12 +18,22 @@ class StockController extends Controller {
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
         $form->handleRequest($request);
+
+
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
         }
-        return $this->render('StockManagerBundle:Category:add_category.html.twig', array('form' => $form->createView()));
+        // Get Category List
+        $categoryList = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Category')
+                ->findAll();
+        return $this->render('StockManagerBundle:Category:add_category.html.twig', array(
+                    'form' => $form->createView(),
+                    'categoryList' => $categoryList)
+        );
     }
 
     public function addItemAction(Request $request) {
@@ -38,7 +48,14 @@ class StockController extends Controller {
             $em->persist($item);
             $em->flush();
         }
-        return $this->render('StockManagerBundle:Item:add_item.html.twig', array('form' => $form->createView()));
+        // Get Item List
+        $itemList = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Item')
+                ->findAll();
+        return $this->render('StockManagerBundle:Item:add_item.html.twig', array(
+                    'form' => $form->createView(),
+                    'itemList' => $itemList)
+        );
     }
 
     public function addSalesAction(Request $request) {
@@ -140,7 +157,7 @@ class StockController extends Controller {
                             ->getQuery()
                             ->getResult();
                 } else {
-                      $result = $this->getDoctrine()
+                    $result = $this->getDoctrine()
                             ->getRepository('StockManagerBundle:Sales')
                             ->createQueryBuilder('a')
                             ->where('a.date BETWEEN :from AND :to')

@@ -1,47 +1,64 @@
-{{ form_start(form) }}
-{{ form_errors(form) }}
-<div>
-    {{ total_kg }}
-</div>
-<div>
-    {{ total_g }}
-</div>
-<div>
-    {{ total_mg }}
-</div>
-<div>
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-primary" id="sales-form-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create Sale</h3>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Total Stock Weight</h3>
+            </div>
+            <div class="panel-body" id="stock-weight-panel-body">
+                <div class="input-group">
+                    <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_kg}}">
+                    <span class="input-group-addon" id="basic-addon2">Kg</span>
+                    <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_g}}">
+                    <span class="input-group-addon" id="basic-addon2">g</span>
+                    <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_mg}}">
+                    <span class="input-group-addon" id="basic-addon2">mg</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body form-panel-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    {{ form_label(form.category_name) }}
-    {{ form_errors(form.category_name) }}
-    {{ form_widget(form.category_name) }}
-</div>
-<div>
-    {{ count }}
-</div>
-<div>
-    {{ form_label(form.serial_no) }}
-    {{ form_errors(form.serial_no) }}
-    {{ form_widget(form.serial_no) }}
-</div>
-<div>
-    {{ form_label(form.weight_g) }}
-    {{ form_errors(form.weight_g) }}
-    {{ form_widget(form.weight_g) }}
-</div>
-<div>
-    {{ form_label(form.weight_mg) }}
-    {{ form_errors(form.weight_mg) }}
-    {{ form_widget(form.weight_mg) }}
-</div>
-<div>
-    {{ form_label(form.date) }}
-    {{ form_errors(form.date) }}
-    {{ form_widget(form.date) }}
-</div>
-<div>
-    {{ form_label(form.Sell) }}
-    {{ form_widget(form.Sell) }}
-</div>
+            <div class="input-group form-widget">
+                {{ form_label(form.category_name) }}
+                {{ form_errors(form.category_name) }}
+                {{ form_widget(form.category_name, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="well well-sm">
+                Stock count : {{ count }}
+            </div>
+            <div class="input-group form-widget">
+                {{ form_label(form.serial_no) }}
+                {{ form_errors(form.serial_no) }}
+                {{ form_widget(form.serial_no, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.weight_g) }}
+                {{ form_widget(form.weight_g, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.weight_mg) }}
+                {{ form_widget(form.weight_mg, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.date) }}
+                {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-submit-btn">
+                {{ form_label(form.Sell) }}
+                {{ form_widget(form.Sell, { 'attr': {'class': 'btn btn-primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
 
-
-{{ form_end(form) }}

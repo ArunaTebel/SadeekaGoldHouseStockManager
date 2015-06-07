@@ -19,4 +19,11 @@ StockManagerBundle\Entity\Item:
             type: integer
         weight_mg:
             type: integer
+    manyToOne:
+       category:
+           targetEntity: Category
+           inversedBy: items
+           joinColumn: 
+               name: category_name
+               referencedColumnName: category_name
  

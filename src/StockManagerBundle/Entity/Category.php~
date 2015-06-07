@@ -20,6 +20,7 @@ class Category {
      * @var \Doctrine\Common\Collections\Collection
      */
     private $items;
+    public $all='all';
 
     /**
      * Constructor

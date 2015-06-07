@@ -1,47 +1,67 @@
-{{ form_start(form) }}
-    {{ form_errors(form) }}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-primary form-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create Sale</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
 
-    <div>
-      
-        {{ form_label(form.sales_range) }}
-        {{ form_errors(form.sales_range) }}
-        {{ form_widget(form.sales_range) }}
+            <div class="input-group form-widget">
+                {{ form_label(form.sales_range) }}
+                {{ form_errors(form.sales_range) }}
+                {{ form_widget(form.sales_range, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_label(form.category_name) }}
+                {{ form_errors(form.category_name) }}
+                {{ form_widget(form.category_name, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.date_from) }}
+                {{ form_widget(form.date_from, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.date_to) }}
+                {{ form_widget(form.date_to, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-submit-btn">
+                {{ form_label(form.Generate) }}
+                {{ form_widget(form.Generate, { 'attr': {'class': 'btn btn-primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-    <div>
-        {{ form_label(form.category_name) }}
-        {{ form_errors(form.category_name) }}
-        {{ form_widget(form.category_name) }}
+    <div class="panel panel-primary table-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Sales Report</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {% if result!=null %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sales ID</th>
+                            <th>Serial No.</th>
+                            <th>Weight (g)</th>
+                            <th>Weight (mg)</th>
+                        <tr>
+                    </thead>
+                    {% for sales in result %}
+                        <tr>
+                            <td>{{ sales.getSalesId }}</td>
+                            <td>{{ sales.getSerialNo}}</td>
+                            <td>{{ sales.getWeightG }}</td>
+                            <td>{{ sales.getWeightMG}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
     </div>
-      <div>
-        {{ form_label(form.date_from) }}
-        {{ form_errors(form.date_from) }}
-        {{ form_widget(form.date_from) }}
-    </div>
-      <div>
-        {{ form_label(form.date_to) }}
-        {{ form_errors(form.date_to) }}
-        {{ form_widget(form.date_to) }}
-    </div>
-    <div>
-        {{ form_label(form.Generate) }}
-        {{ form_widget(form.Generate) }}
-    </div>
- {% if result!=null %}
-   <table>
-    <th>
-        <td>sales id</td>
-        <td>serial no</td>
-        <td>weight g</td>
-        <td>weight mg</td>
-    </th>
-    {% for sales in result %}
-        <tr>
-            <td>{{ sales.getSalesId }}</td>
-            <td>{{ sales.getSerialNo}}</td>
-            <td>{{ sales.getWeightG }}</td>
-            <td>{{ sales.getWeightMG}}</td>
-        </tr>
-    {% endfor %}
-</table>
-{% endif %}
-{{ form_end(form) }}  
+{% endblock %}

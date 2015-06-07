@@ -43,8 +43,12 @@ class StockController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         //$categories = $em->getRepository('StockManagerBundle:Entity:Category')->findAll();
         if ($form->isValid()) {
+            $category = $form->getData('category_name');
+//            dump($category);die;
+//            $item->setCategory($category);
             $em = $this->getDoctrine()->getManager();
             //dump($item->getSerialNo());die();
+//            dump($item);die;
             $em->persist($item);
             $em->flush();
         }

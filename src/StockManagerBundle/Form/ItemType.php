@@ -9,7 +9,7 @@ class ItemType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        $builder->add('category_name', 'entity', array(
+        $builder->add('category', 'entity', array(
             'class' => 'StockManagerBundle:Category',
             'property' => 'category_name',
             'attr' => array(

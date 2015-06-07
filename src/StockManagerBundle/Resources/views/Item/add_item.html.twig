@@ -9,8 +9,8 @@
             {{ form_errors(form) }}
 
             <div class="input-group form-widget">
-                {{ form_errors(form.category_name) }}
-                {{ form_widget(form.category_name, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_errors(form.category) }}
+                {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
             </div>
             <br>
             <div class="input-group form-widget">
@@ -51,13 +51,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for category in itemList %}
+                    {% for item in itemList %}
                         <tr>
-                            <td>{{ category.getItemId }}</td>
-                            <td>{{ category.getCategoryName }}</td>
-                            <td>{{ category.getSerialNo }}</td>
-                            <td>{{ category.getWeightG }}</td>
-                            <td>{{ category.getWeightMg }}</td>
+                            <td>{{ item.getItemId }}</td>
+                            <td>{{ item.getCategory.getCategoryName }}</td>
+                            <td>{{ item.getSerialNo }}</td>
+                            <td>{{ item.getWeightG }}</td>
+                            <td>{{ item.getWeightMg }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

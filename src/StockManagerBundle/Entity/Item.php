@@ -14,10 +14,6 @@ class Item
      */
     private $item_id;
 
-    /**
-     * @var string
-     */
-    private $category_name;
 
     /**
      * @var string
@@ -48,28 +44,7 @@ class Item
      public function __toString() {
         return $this->getSerialNo(); 
     }
-    /**
-     * Set category_name
-     *
-     * @param string $categoryName
-     * @return Item
-     */
-    public function setCategoryName($categoryName)
-    {
-        $this->category_name = $categoryName;
 
-        return $this;
-    }
-
-    /**
-     * Get category_name
-     *
-     * @return string 
-     */
-    public function getCategoryName()
-    {
-        return $this->category_name;
-    }
 
     /**
      * Set serial_no
@@ -166,5 +141,33 @@ class Item
     public function getCategory()
     {
         return $this->category;
+    }
+    /**
+     * @var integer
+     */
+    private $category_id;
+
+
+    /**
+     * Set category_id
+     *
+     * @param integer $categoryId
+     * @return Item
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get category_id
+     *
+     * @return integer 
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
     }
 }

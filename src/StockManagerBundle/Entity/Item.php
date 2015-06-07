@@ -139,4 +139,32 @@ class Item
     {
         return $this->weight_mg;
     }
+    /**
+     * @var \StockManagerBundle\Entity\Category
+     */
+    private $category;
+
+
+    /**
+     * Set category
+     *
+     * @param \StockManagerBundle\Entity\Category $category
+     * @return Item
+     */
+    public function setCategory(\StockManagerBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \StockManagerBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }

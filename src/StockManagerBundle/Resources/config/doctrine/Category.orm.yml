@@ -1,6 +1,9 @@
 StockManagerBundle\Entity\Category:
     type: entity
     table: null
+    uniqueConstraints:
+        uniqueConstraint:
+            columns: [category_name]
     repositoryClass: StockManagerBundle\Entity\CategoryRepository
     id:
         category_id:
@@ -11,9 +14,13 @@ StockManagerBundle\Entity\Category:
     fields:
         category_name:
             type: string
-            length: 255            
+            length: 255
         category_code:
             type: string
             length: 4
+    oneToMany:
+        items:
+           targetEntity: Item
+           mappedBy: category
    
 

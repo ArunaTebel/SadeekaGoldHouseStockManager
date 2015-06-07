@@ -1,0 +1,55 @@
+/* 
+    Created on : Jun 7, 2015, 1:46:31 PM
+    Author     : ArunaTebel
+*/
+body{
+    background-image: url("../img/background.jpg");
+}
+article{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-panel{
+    width: 40%;
+    max-width: 40%;
+    margin: 0 auto;
+    float: left;
+}
+
+.table-panel{
+    width: 55%;
+    max-width: 55%;
+    margin: 0 auto;
+    float: right;
+}
+
+.form-panel-body{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.form-submit-btn{
+    float: right;
+}
+
+.form-widget{
+    width: 100%;
+}
+
+#sales-form-panel{
+    width: 70%;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+#stock-weight-panel-body{
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+#stock-weight-input{
+    /*margin-right: 5px;*/
+}
+

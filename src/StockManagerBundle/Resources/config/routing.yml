@@ -25,3 +25,9 @@ StockManagerBundle_view_reports:
     defaults: { _controller: StockManagerBundle:Stock:viewReport }
     requirements:
         _method:  GET|POST
+
+StockManagerBundle_get_item_serials_by_category:
+    pattern:  /getItemsByCategoryName
+    defaults: { _controller: StockManagerBundle:Stock:getItemSerialsByCategoryName }
+    requirements:
+        _method:  GET|POST

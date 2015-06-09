@@ -8,9 +8,21 @@ StockManagerBundle_add_category:
     requirements:
         _method:  GET|POST
         
+StockManagerBundle_edit_category:
+    pattern:  /editCategory/{category_id}
+    defaults: { _controller: StockManagerBundle:Stock:editCategory }
+    requirements:
+        _method:  GET|POST
+        
 StockManagerBundle_add_item:
     pattern:  /addItem
     defaults: { _controller: StockManagerBundle:Stock:addItem }
+    requirements:
+        _method:  GET|POST
+        
+StockManagerBundle_edit_item:
+    pattern:  /editItem/{item_id}
+    defaults: { _controller: StockManagerBundle:Stock:editItem }
     requirements:
         _method:  GET|POST
 
@@ -31,3 +43,11 @@ StockManagerBundle_get_item_serials_by_category:
     defaults: { _controller: StockManagerBundle:Stock:getItemSerialsByCategoryName }
     requirements:
         _method:  GET|POST
+        
+StockManagerBundle_get_item_weight_by_serial:
+    pattern:  /getItemWeightBySerial
+    defaults: { _controller: StockManagerBundle:Stock:getItemWeightBySerial }
+    requirements:
+        _method:  GET|POST
+        
+    

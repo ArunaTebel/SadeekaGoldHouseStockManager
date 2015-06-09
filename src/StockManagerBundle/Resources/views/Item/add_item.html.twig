@@ -52,7 +52,7 @@
                 </thead>
                 <tbody>
                     {% for item in itemList %}
-                        <tr>
+                        <tr class="clickable-row" data-href="{{path('StockManagerBundle_edit_item',{'item_id':item.getItemId})}}">
                             <td>{{ item.getItemId }}</td>
                             <td>{{ item.getCategory.getCategoryName }}</td>
                             <td>{{ item.getSerialNo }}</td>
@@ -63,5 +63,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>                
 {% endblock %}

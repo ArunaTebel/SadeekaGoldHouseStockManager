@@ -40,7 +40,7 @@
                 </thead>
                 <tbody>
                     {% for category in categoryList %}
-                        <tr>
+                        <tr class="clickable-row" data-href="{{path('StockManagerBundle_edit_category',{'category_id':category.getCategoryId})}}">
                             <td>{{ category.getCategoryId }}</td>
                             <td>{{ category.getCategoryCode }}</td>
                             <td>{{ category.getCategoryName }}</td>

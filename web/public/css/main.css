@@ -11,15 +11,15 @@ article{
 }
 
 .form-panel{
-    width: 40%;
+    width: 35%;
     max-width: 40%;
     margin: 0 auto;
     float: left;
 }
 
 .table-panel{
-    width: 55%;
-    max-width: 55%;
+    width: 60%;
+    max-width: 60%;
     margin: 0 auto;
     float: right;
 }
@@ -53,6 +53,7 @@ article{
     /*margin-right: 5px;*/
 }
 .clickable-row:hover {
-    background-color:#269abc;
+    background-color: #a6e1ec;
+    cursor: pointer;
 }
 

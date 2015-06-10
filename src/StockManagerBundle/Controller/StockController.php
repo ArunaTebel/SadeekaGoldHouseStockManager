@@ -11,7 +11,8 @@ use StockManagerBundle\Form\CategoryType;
 use StockManagerBundle\Entity\Sales;
 use StockManagerBundle\Form\SalesType;
 use StockManagerBundle\Form\ReportType;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class StockController extends Controller {
 
@@ -26,6 +27,7 @@ class StockController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
+            return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
         }
         // Get Category List
         $categoryList = $this->getDoctrine()
@@ -38,7 +40,7 @@ class StockController extends Controller {
     }
 
     public function editCategoryAction($category_id) {
-          $criteria = array_filter(array(
+        $criteria = array_filter(array(
             'category_id' => $category_id,
         ));
         $result = $this->getDoctrine()
@@ -51,8 +53,9 @@ class StockController extends Controller {
             $form->submit($request);
             if ($form->isValid()) {
                 $em->flush();
+                return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
             }
-        }       
+        }
         $categoryList = $this->getDoctrine()
                 ->getRepository('StockManagerBundle:Category')
                 ->findAll();
@@ -72,6 +75,7 @@ class StockController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
+            return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
         }
         // Get Item List
         $itemList = $this->getDoctrine()
@@ -97,6 +101,7 @@ class StockController extends Controller {
             $form->submit($request);
             if ($form->isValid()) {
                 $em->flush();
+                return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
             }
         }
         $itemList = $this->getDoctrine()
@@ -104,6 +109,32 @@ class StockController extends Controller {
                 ->findAll();
         return $this->render('StockManagerBundle:Item:add_item.html.twig', array('form' => $form->createView()
                     , 'itemList' => $itemList));
+    }
+
+    public function deleteItemAction($item_id) {
+        $criteria = array_filter(array(
+            'item_id' => $item_id,
+        ));
+        $result = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Item')
+                ->find($criteria);
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($result);
+        $em->flush();
+        return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
+    }
+
+    public function deleteCategoryAction($category_id) {
+        $criteria = array_filter(array(
+            'category_id' => $category_id,
+        ));
+        $result = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Category')
+                ->find($criteria);
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($result);
+        $em->flush();
+        return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
     }
 
     public function addSalesAction(Request $request) {
@@ -131,6 +162,10 @@ class StockController extends Controller {
         $total_mg = (($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000;
         if ($form->isValid()) {
             $serial_no = $form['serial_no']->getData()->getSerialNo();
+//            dump($serial_no);die;
+            $date = $form['date']->getData();
+            $dateTime = new \DateTime($date);
+            $sales->setDate($dateTime);
             $em = $this->getDoctrine()->getManager();
             //dump($item->getSerialNo());die();
             $em->persist($sales);
@@ -139,6 +174,7 @@ class StockController extends Controller {
                     ->findOneBy(array('serial_no' => $serial_no));
             $em->remove($item);
             $em->flush();
+            return new RedirectResponse($this->generateUrl('StockManagerBundle_add_sales'));
         }
         return $this->render('StockManagerBundle:Sales:add_sale.html.twig', array('form' => $form->createView(), 'count' => $count,
                     'total_kg' => $total_kg, 'total_g' => $total_g, 'total_mg' => $total_mg));
@@ -235,7 +271,7 @@ class StockController extends Controller {
 
         foreach ($items as $item) {
             if ($item->getCategory()->getCategoryName() == $categoryName) {
-                array_push($results, $item->getSerialNo());
+                $results[$item->getItemId()] = $item->getSerialNo();
             }
         }
         if (sizeof($results) < 1) {

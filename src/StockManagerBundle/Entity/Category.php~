@@ -1,10 +1,9 @@
 <?php
 
 namespace StockManagerBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\Length;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Category
@@ -12,15 +11,24 @@ use Symfony\Component\Validator\Constraints\Length;
 class Category {
 
     /**
+     * @var integer
+     */
+    private $category_id;
+
+    /**
      * @var string
      */
     private $category_name;
 
     /**
+     * @var string
+     */
+    private $category_code;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $items;
-    public $all='all';
 
     /**
      * Constructor
@@ -29,8 +37,13 @@ class Category {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function __toString() {
-        return $this->getCategoryName(); 
+    /**
+     * Get category_id
+     *
+     * @return integer 
+     */
+    public function getCategoryId() {
+        return $this->category_id;
     }
 
     /**
@@ -52,6 +65,27 @@ class Category {
      */
     public function getCategoryName() {
         return $this->category_name;
+    }
+
+    /**
+     * Set category_code
+     *
+     * @param string $categoryCode
+     * @return Category
+     */
+    public function setCategoryCode($categoryCode) {
+        $this->category_code = $categoryCode;
+
+        return $this;
+    }
+
+    /**
+     * Get category_code
+     *
+     * @return string 
+     */
+    public function getCategoryCode() {
+        return $this->category_code;
     }
 
     /**
@@ -84,48 +118,12 @@ class Category {
         return $this->items;
     }
 
-    /**
-     * @var string
-     */
-    private $category_code;
-
-    /**
-     * Set category_code
-     *
-     * @param string $categoryCode
-     * @return Category
-     */
-    public function setCategoryCode($categoryCode) {
-        $this->category_code = $categoryCode;
-
-        return $this;
-    }
-
-    /**
-     * Get category_code
-     *
-     * @return string 
-     */
-    public function getCategoryCode() {
-        return $this->category_code;
-    }
-
-    /**
-     * @var integer
-     */
-    private $category_id;
-
-    /**
-     * Get category_id
-     *
-     * @return integer 
-     */
-    public function getCategoryId() {
-        return $this->category_id;
-    }
-
     public static function loadvalidatorMetaData(ClassMetadata $metadata) {
         $metadata->addPropertyConstraint('category_code', new Length(4));
+    }
+
+    public function __toString() {
+        return $this->getCategoryName();
     }
 
 }

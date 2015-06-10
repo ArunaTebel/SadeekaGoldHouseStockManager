@@ -9,7 +9,7 @@ class ReportType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('sales_range', 'choice', array(
-            'choices' => array('today' => 'Todays Sales', 'overall' => 'Overall Sales', 'between' => 'Sales Between'),
+            'choices' => array('today' => 'Today', 'overall' => 'Overall', 'between' => 'Sales Between'),
             'mapped' => false,
             'multiple' => false,
             'expanded' => true,

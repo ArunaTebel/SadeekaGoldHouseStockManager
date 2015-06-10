@@ -14,6 +14,10 @@ class Item
      */
     private $item_id;
 
+    /**
+     * @var integer
+     */
+    private $category_id;
 
     /**
      * @var string
@@ -30,6 +34,11 @@ class Item
      */
     private $weight_mg;
 
+    /**
+     * @var \StockManagerBundle\Entity\Category
+     */
+    private $category;
+
 
     /**
      * Get item_id
@@ -41,10 +50,28 @@ class Item
         return $this->item_id;
     }
 
-     public function __toString() {
-        return $this->getSerialNo(); 
+    /**
+     * Set category_id
+     *
+     * @param integer $categoryId
+     * @return Item
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
     }
 
+    /**
+     * Get category_id
+     *
+     * @return integer 
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
 
     /**
      * Set serial_no
@@ -114,11 +141,6 @@ class Item
     {
         return $this->weight_mg;
     }
-    /**
-     * @var \StockManagerBundle\Entity\Category
-     */
-    private $category;
-
 
     /**
      * Set category
@@ -142,32 +164,7 @@ class Item
     {
         return $this->category;
     }
-    /**
-     * @var integer
-     */
-    private $category_id;
-
-
-    /**
-     * Set category_id
-     *
-     * @param integer $categoryId
-     * @return Item
-     */
-    public function setCategoryId($categoryId)
-    {
-        $this->category_id = $categoryId;
-
-        return $this;
-    }
-
-    /**
-     * Get category_id
-     *
-     * @return integer 
-     */
-    public function getCategoryId()
-    {
-        return $this->category_id;
+    public function __toString() {
+        return $this->getSerialNo(); 
     }
 }

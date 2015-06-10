@@ -327,7 +327,6 @@ class StockController extends Controller {
              $user = $this->getDoctrine()
                         ->getRepository('StockManagerBundle:User')
                         ->findOneBy($criteria1);
-            // dump($user);die;
              $user_id=$user->getId();
              $criteria2 = array_filter(array(
                         'user_id' => $user_id,

@@ -10,6 +10,7 @@
 #
 #        default:
 #            anonymous: ~
+
             
 # app/config/security.yml
 security:
@@ -32,6 +33,8 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
+                always_use_default_target_path: false
+                default_target_path: /addSales
             logout:       true
             anonymous:    true
 

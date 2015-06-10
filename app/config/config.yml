@@ -30,6 +30,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    translator: ~
 
 # Twig Configuration
 twig:
@@ -84,3 +85,6 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: StockManagerBundle\Entity\User
+    registration:
+        form:
+            type: sadeeka_sm_user_registration

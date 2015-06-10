@@ -355,26 +355,24 @@ class StockController extends Controller {
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
         if ($form->isValid()) {
+            $username = $form['username']->getData()->getUsername();
+            $criteria1 = array_filter(array(
+                'username' => $username,
+            ));
+            $user = $this->getDoctrine()
+                    ->getRepository('StockManagerBundle:User')
+                    ->findOneBy($criteria1);
+            $user_id = $user->getId();
+            $criteria2 = array_filter(array(
+                'user_id' => $user_id,
+            ));
 
-             $username = $form['username']->getData()->getUsername();
-             $criteria1 = array_filter(array(
-                        'username' => $username,
-                    ));
-             $user = $this->getDoctrine()
-                        ->getRepository('StockManagerBundle:User')
-                        ->findOneBy($criteria1);
-             $user_id=$user->getId();
-             $criteria2 = array_filter(array(
-                        'user_id' => $user_id,
-                    ));
-                
-                $result = $this->getDoctrine()
-                        ->getRepository('StockManagerBundle:UserLog')
-                        ->findBy($criteria2);
-                return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                    'form' => $form->createView(),'result' => $result)
-        );
- 
+            $result = $this->getDoctrine()
+                    ->getRepository('StockManagerBundle:UserLog')
+                    ->findBy($criteria2);
+            return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
+                        'form' => $form->createView(), 'result' => $result)
+            );
         }
         return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
                     'form' => $form->createView(), 'result' => null

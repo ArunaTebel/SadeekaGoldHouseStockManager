@@ -30,7 +30,7 @@ class SalesType extends AbstractType {
             ),
             'label' => false
         ));
-        $builder->add('date', 'date');
+        $builder->add('date', 'text');
         $builder->add('Sell', 'submit');
     }
 

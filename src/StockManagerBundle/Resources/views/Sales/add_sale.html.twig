@@ -59,11 +59,20 @@
             </div>
             {{ form_end(form) }}
         </div>
+        <div id="debug-div"></div>
     </div>
     <script>
         var getItemSerialsByCategoryNameUrl = '{{path('StockManagerBundle_get_item_serials_by_category')}}';
         var getItemWeightBySerialUrl = '{{path('StockManagerBundle_get_item_weight_by_serial')}}';
-      
+        $("#sales_category_name").chosen({
+            no_results_text: "Oops, nothing found!"
+        });
+        $("#sales_serial_no").chosen({
+            no_results_text: "Oops, nothing found!"
+        });
+        $("#sales_date").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
     </script>
 {% endblock %}
 

@@ -39,29 +39,72 @@
         <div class="panel-heading">
             <h3 class="panel-title">Existing Items</h3>
         </div>
-        <div class="panel-body form-panel-body">
+        <div class="panel-body form-panel-body" id="item-table">
+            <div class="input-group form-widget">
+                <input class="search form-control" placeholder="Filter Items" />
+            </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Item Id</th>
-                        <th>Category</th>
-                        <th>Serial No.</th>
-                        <th>Weight (g)</th>
-                        <th>Weight (mg)</th>
+                        <th class="sort" data-sort="id"><a href="#">Item Id</a></th>
+                        <th class="sort" data-sort="category"><a href="#">Category</a></th>
+                        <th class="sort" data-sort="serial-no"><a href="#">Serial No.</a></th>
+                        <th class="sort" data-sort="weight-g"><a href="#">Weight (g)</a></th>
+                        <th class="sort" data-sort="weight-mg"><a href="#">Weight (mg)</a></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="list">
                     {% for item in itemList %}
-                        <tr class="clickable-row" data-href="{{path('StockManagerBundle_edit_item',{'item_id':item.getItemId})}}">
-                            <td>{{ item.getItemId }}</td>
-                            <td>{{ item.getCategory.getCategoryName }}</td>
-                            <td>{{ item.getSerialNo }}</td>
-                            <td>{{ item.getWeightG }}</td>
-                            <td>{{ item.getWeightMg }}</td>
+                        <tr>
+                            <td class="id">{{ item.getItemId }}</td>
+                            <td class="category">{{ item.getCategory.getCategoryName }}</td>
+                            <td class="serial-no">{{ item.getSerialNo }}</td>
+                            <td class="weight-g">{{ item.getWeightG }}</td>
+                            <td class="weight-mg">{{ item.getWeightMg }}</td>
+                            <td>
+                                <a title="Edit Item" href="{{path('StockManagerBundle_edit_item',{'item_id':item.getItemId})}}">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a title="Delete Item" data-toggle="modal" data-target="#delete-item-modal" href=javascript:void(0)" data-whatever="{{path('StockManagerBundle_delete_item',{'item_id':item.getItemId})}}">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    </div>                
+        <!-- Modal -->
+        <div class="modal fade" id="delete-item-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Confirm?</h4>
+                    </div>
+                    <div class="modal-body">
+                        Do you really need to delete this item?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        <a type="button" class="btn btn-primary" id="item-delete-btn" href="">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var options = {
+            valueNames: ['serial-no', 'category', 'weight-g', 'weight-mg', 'id']
+        };
+
+        var itemList = new List('item-table', options);
+
+        $("#category_category").chosen({
+            no_results_text: "Oops, nothing found!"
+        });
+
+    </script>
 {% endblock %}

@@ -26,6 +26,18 @@ StockManagerBundle_edit_item:
     requirements:
         _method:  GET|POST
 
+StockManagerBundle_delete_item:
+    pattern:  /deleteItem/{item_id}
+    defaults: { _controller: StockManagerBundle:Stock:deleteItem }
+    requirements:
+        _method:  GET|POST
+
+StockManagerBundle_delete_category:
+    pattern:  /deleteCategory/{category_id}
+    defaults: { _controller: StockManagerBundle:Stock:deleteCategory }
+    requirements:
+        _method:  GET|POST
+
 StockManagerBundle_add_sales:
     pattern:  /addSales
     defaults: { _controller: StockManagerBundle:Stock:addSales }

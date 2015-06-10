@@ -1,4 +1,13 @@
 services:
+    sadeeka_sm_user.registration_listener:
+        class: StockManagerBundle\EventListener\RegistrationListener
+        arguments: []
+        tags:
+            - { name: kernel.event_subscriber }
+    sadeeka_sm_user.registration.form.type:
+        class: StockManagerBundle\Form\SSMRegistrationFormType
+        tags:
+            - { name: form.type, alias: sadeeka_sm_user_registration }
 #    stock_manager.example:
 #        class: StockManagerBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

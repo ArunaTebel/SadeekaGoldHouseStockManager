@@ -8,3 +8,4 @@ StockManagerBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
+       

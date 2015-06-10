@@ -50,4 +50,8 @@ StockManagerBundle_get_item_weight_by_serial:
     requirements:
         _method:  GET|POST
         
-    
+StockManagerBundle_view_user_logs:
+    pattern:  /viewUserLogs
+    defaults: { _controller: StockManagerBundle:Stock:viewUserLogs }
+    requirements:
+        _method:  GET|POST

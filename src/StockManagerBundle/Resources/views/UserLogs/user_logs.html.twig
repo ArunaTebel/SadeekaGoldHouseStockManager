@@ -1,0 +1,68 @@
+{# empty Twig template #}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-primary form-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">View Logs</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+
+            <div class="input-group form-widget">
+                {{ form_label(form.username) }}
+                {{ form_errors(form.username) }}
+                {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_label(form.date_range) }}
+                {{ form_errors(form.date_range) }}
+                {{ form_widget(form.date_range, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.date_from) }}
+                {{ form_widget(form.date_from, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-widget">
+                {{ form_errors(form.date_to) }}
+                {{ form_widget(form.date_to, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <br>
+            <div class="input-group form-submit-btn">
+                {{ form_label(form.View) }}
+                {{ form_widget(form.View, { 'attr': {'class': 'btn btn-primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="panel panel-primary table-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">User Logs</h3>
+        </div>
+        <div class="panel-body form-panel-body">
+            {% if result!=null %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> Action </th>
+                            <th> Action ID</th>
+                            <th> Date </th>
+                            <th> Time</th>
+                        <tr>
+                    </thead>
+                    {% for log in result %}
+                        <tr>
+                            <td>{{ log.getAction }}</td>
+                            <td>{{ log.getActionId}}</td>
+                            <td>{{ log.getDate|date('Y-m-d') }}</td>
+                            <td>{{ log.getDate|date('H:i:s')}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

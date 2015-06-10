@@ -5,19 +5,19 @@ namespace StockManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Item
+ * Sales
  */
-class Item
+class Sales
 {
     /**
      * @var integer
      */
-    private $item_id;
+    private $sales_id;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $category_id;
+    private $category_name;
 
     /**
      * @var string
@@ -35,49 +35,49 @@ class Item
     private $weight_mg;
 
     /**
-     * @var \StockManagerBundle\Entity\Category
+     * @var \DateTime
      */
-    private $category;
+    private $date;
 
 
     /**
-     * Get item_id
+     * Get sales_id
      *
      * @return integer 
      */
-    public function getItemId()
+    public function getSalesId()
     {
-        return $this->item_id;
+        return $this->sales_id;
     }
 
     /**
-     * Set category_id
+     * Set category_name
      *
-     * @param integer $categoryId
-     * @return Item
+     * @param string $categoryName
+     * @return Sales
      */
-    public function setCategoryId($categoryId)
+    public function setCategoryName($categoryName)
     {
-        $this->category_id = $categoryId;
+        $this->category_name = $categoryName;
 
         return $this;
     }
 
     /**
-     * Get category_id
+     * Get category_name
      *
-     * @return integer 
+     * @return string 
      */
-    public function getCategoryId()
+    public function getCategoryName()
     {
-        return $this->category_id;
+        return $this->category_name;
     }
 
     /**
      * Set serial_no
      *
      * @param string $serialNo
-     * @return Item
+     * @return Sales
      */
     public function setSerialNo($serialNo)
     {
@@ -100,7 +100,7 @@ class Item
      * Set weight_g
      *
      * @param integer $weightG
-     * @return Item
+     * @return Sales
      */
     public function setWeightG($weightG)
     {
@@ -123,7 +123,7 @@ class Item
      * Set weight_mg
      *
      * @param integer $weightMg
-     * @return Item
+     * @return Sales
      */
     public function setWeightMg($weightMg)
     {
@@ -143,28 +143,25 @@ class Item
     }
 
     /**
-     * Set category
+     * Set date
      *
-     * @param \StockManagerBundle\Entity\Category $category
-     * @return Item
+     * @param \DateTime $date
+     * @return Sales
      */
-    public function setCategory(\StockManagerBundle\Entity\Category $category = null)
+    public function setDate($date)
     {
-        $this->category = $category;
+        $this->date = $date;
 
         return $this;
     }
 
     /**
-     * Get category
+     * Get date
      *
-     * @return \StockManagerBundle\Entity\Category 
+     * @return \DateTime 
      */
-    public function getCategory()
+    public function getDate()
     {
-        return $this->category;
-    }
-    public function __toString() {
-        return $this->getSerialNo(); 
+        return $this->date;
     }
 }

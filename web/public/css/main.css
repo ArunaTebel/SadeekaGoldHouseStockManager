@@ -52,4 +52,7 @@ article{
 #stock-weight-input{
     /*margin-right: 5px;*/
 }
+.clickable-row:hover {
+    background-color:#269abc;
+}
 

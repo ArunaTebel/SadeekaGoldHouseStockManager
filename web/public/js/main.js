@@ -23,6 +23,7 @@ $(document).ready(function () {
                 $("#sales_date").attr('disabled', 'disabled');
                 $("#sales_Sell").attr('disabled', 'disabled');
             }
+            setWeightsBySerialNumber();
 
         });
     });
@@ -37,5 +38,28 @@ $(document).ready(function () {
                     $("#reports_date_to").hide();
                 }
             });
+
+    $('#sales_serial_no').change(function () {
+        setWeightsBySerialNumber();
+    });
+
+    function setWeightsBySerialNumber() {
+        var serialNo = $("#sales_serial_no>option:selected").text();
+        $.post(getItemWeightBySerialUrl, {'serialNo': serialNo}, function (response) {
+            if (response['success'] != false) {
+                $('#sales_weight_g').val(response['weight_g']);
+                $('#sales_weight_mg').val(response['weight_mg']);
+            }
+        });
+    }
+    $(".clickable-row").click(function () {
+        window.document.location = $(this).data("href");
+
+    });
+//    $('.clickable-row').hover(function () {
+//        $(this).addClass('hover');
+//    }, function () {
+//        $(this).removeClass('hover');
+//    })
 
 });

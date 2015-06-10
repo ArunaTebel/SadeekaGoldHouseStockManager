@@ -1,19 +1,27 @@
 <?php
-// src/Acme/UserBundle/Entity/User.php
 
 namespace StockManagerBundle\Entity;
 
-use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
  */
-class User extends BaseUser
+class User
 {
-    public function __construct()
+    /**
+     * @var integer
+     */
+    private $id;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
     {
-        parent::__construct();
-        // your own logic
+        return $this->id;
     }
 }
-

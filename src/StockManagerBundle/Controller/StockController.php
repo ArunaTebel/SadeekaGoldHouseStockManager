@@ -37,16 +37,29 @@ class StockController extends Controller {
         );
     }
 
-    public function editCategoryAction(Request $request) {
-        $category = new Category();
-        $form = $this->createForm(new CategoryType(), $category);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($category);
-            $em->flush();
-        }
-        return $this->render('StockManagerBundle:Category:edit_category.html.twig', array('form' => $form->createView()));
+    public function editCategoryAction($category_id) {
+          $criteria = array_filter(array(
+            'category_id' => $category_id,
+        ));
+        $result = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Category')
+                ->find($criteria);
+        $form = $this->createForm(new CategoryType(), $result);
+        $request = $this->get('request');
+        $em = $this->getDoctrine()->getEntityManager();
+        if ($request->isMethod('POST')) {
+            $form->submit($request);
+            if ($form->isValid()) {
+                $em->flush();
+            }
+        }       
+        $categoryList = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Category')
+                ->findAll();
+        return $this->render('StockManagerBundle:Category:add_category.html.twig', array(
+                    'form' => $form->createView(),
+                    'categoryList' => $categoryList)
+        );
     }
 
     public function addItemAction(Request $request) {
@@ -54,14 +67,9 @@ class StockController extends Controller {
         $form = $this->createForm(new ItemType(), $item);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
-        //$categories = $em->getRepository('StockManagerBundle:Entity:Category')->findAll();
         if ($form->isValid()) {
             $category = $form->getData('category_name');
-//            dump($category);die;
-//            $item->setCategory($category);
             $em = $this->getDoctrine()->getManager();
-            //dump($item->getSerialNo());die();
-//            dump($item);die;
             $em->persist($item);
             $em->flush();
         }
@@ -75,19 +83,27 @@ class StockController extends Controller {
         );
     }
 
-    public function editItemAction(Request $request) {
-        $item = new Item();
-        $form = $this->createForm(new ItemType(), $item);
-        $form->handleRequest($request);
+    public function editItemAction($item_id) {
+        $criteria = array_filter(array(
+            'item_id' => $item_id,
+        ));
+        $result = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Item')
+                ->find($criteria);
+        $form = $this->createForm(new ItemType(), $result);
+        $request = $this->get('request');
         $em = $this->getDoctrine()->getEntityManager();
-        //$categories = $em->getRepository('StockManagerBundle:Entity:Category')->findAll();
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            //dump($item->getSerialNo());die();
-            $em->persist($item);
-            $em->flush();
+        if ($request->isMethod('POST')) {
+            $form->submit($request);
+            if ($form->isValid()) {
+                $em->flush();
+            }
         }
-        return $this->render('StockManagerBundle:Item:edit_item.html.twig', array('form' => $form->createView()));
+        $itemList = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Item')
+                ->findAll();
+        return $this->render('StockManagerBundle:Item:add_item.html.twig', array('form' => $form->createView()
+                    , 'itemList' => $itemList));
     }
 
     public function addSalesAction(Request $request) {
@@ -225,6 +241,29 @@ class StockController extends Controller {
         if (sizeof($results) < 1) {
             $results['success'] = false;
         }
+        return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
+    }
+
+    public function getItemWeightBySerialAction() {
+        $request = $this->container->get('request');
+        $serialNo = $request->request->get('serialNo');
+        $criteria = array_filter(array(
+            'serial_no' => $serialNo,
+        ));
+        $item = $this->getDoctrine()->getManager()
+                ->getRepository('StockManagerBundle:Item')
+                ->findBy($criteria);
+        $results = array();
+        if ($item == null) {
+            $results['success'] = false;
+        }
+        if (is_array($item)) {
+            $item = $item[0];
+        }
+        $weight_g = $item->getWeightG();
+        $weight_mg = $item->getWeightMg();
+        $results['weight_g'] = $weight_g;
+        $results['weight_mg'] = $weight_mg;
         return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
     }
 

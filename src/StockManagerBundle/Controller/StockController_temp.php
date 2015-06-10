@@ -22,21 +22,13 @@ class StockController extends Controller {
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
         $form->handleRequest($request);
+
+
+
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($category);
             $em->flush();
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            date_default_timezone_set('Asia/Colombo');
-            $date = date_create(date(date('Y-m-d H:i:s')));
-            $userLog = new UserLog();
-            $username = $user->getUsername();
-            $userLog->setUser($user);
-            $userLog->setAction("Add Category");
-            $userLog->setActionId($category->getCategoryId());
-            $userLog->setDate($date);
-            $em->persist($userLog);
-            $em->flush($userLog);
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
         }
         // Get Category List
@@ -63,16 +55,6 @@ class StockController extends Controller {
             $form->submit($request);
             if ($form->isValid()) {
                 $em->flush();
-                $user = $this->get('security.token_storage')->getToken()->getUser();
-                date_default_timezone_set('Asia/Colombo');
-                $date = date_create(date(date('Y-m-d H:i:s')));
-                $userLog = new UserLog();
-                $userLog->setUser($user);
-                $userLog->setAction("Edit Category");
-                $userLog->setActionId($category_id);
-                $userLog->setDate($date);
-                $em->persist($userLog);
-                $em->flush($userLog);
                 return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
             }
         }
@@ -95,16 +77,6 @@ class StockController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            date_default_timezone_set('Asia/Colombo');
-            $date = date_create(date(date('Y-m-d H:i:s')));
-            $userLog = new UserLog();
-            $userLog->setUser($user);
-            $userLog->setAction("Add Item");
-            $userLog->setActionId($item->getItemId());
-            $userLog->setDate($date);
-            $em->persist($userLog);
-            $em->flush($userLog);
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
         }
         // Get Item List
@@ -131,16 +103,6 @@ class StockController extends Controller {
             $form->submit($request);
             if ($form->isValid()) {
                 $em->flush();
-                $user = $this->get('security.token_storage')->getToken()->getUser();
-                date_default_timezone_set('Asia/Colombo');
-                $date = date_create(date(date('Y-m-d H:i:s')));
-                $userLog = new UserLog();
-                $userLog->setUser($user);
-                $userLog->setAction("Edit Item");
-                $userLog->setActionId($item_id);
-                $userLog->setDate($date);
-                $em->persist($userLog);
-                $em->flush($userLog);
                 return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
             }
         }
@@ -186,6 +148,7 @@ class StockController extends Controller {
                 ->select('count(item.item_id)')
                 ->from('StockManagerBundle:Item', 'item');
         $count = $result->getQuery()->getSingleScalarResult();
+        // dump($count);die();
         $sum_mg = $em->createQueryBuilder()
                         ->select('sum(item.weight_mg)')
                         ->from('StockManagerBundle:Item', 'item')
@@ -195,32 +158,24 @@ class StockController extends Controller {
                         ->from('StockManagerBundle:Item', 'item')
                         ->getQuery()->getSingleScalarResult();
         $total = $sum_g * 1000 + $sum_mg;
+        // dump($total);die();
         $total_kg = floor($total / 1000000);
         $total_g = floor(($total / 1000000 - $total_kg) * 1000);
         $total_mg = (($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000;
         if ($form->isValid()) {
             $serial_no = $form['serial_no']->getData()->getSerialNo();
+//            dump($serial_no);die;
             $date = $form['date']->getData();
             $dateTime = new \DateTime($date);
             $sales->setDate($dateTime);
             $em = $this->getDoctrine()->getManager();
+            //dump($item->getSerialNo());die();
             $em->persist($sales);
             $em->flush();
             $item = $em->getRepository('StockManagerBundle:Item')
                     ->findOneBy(array('serial_no' => $serial_no));
             $em->remove($item);
             $em->flush();
-
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            date_default_timezone_set('Asia/Colombo');
-            $date = date_create(date(date('Y-m-d H:i:s')));
-            $userLog = new UserLog();
-            $userLog->setUser($user);
-            $userLog->setAction("Add Sale");
-            $userLog->setActionId($sales->getSalesId());
-            $userLog->setDate($date);
-            $em->persist($userLog);
-            $em->flush($userLog);
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_sales'));
         }
         return $this->render('StockManagerBundle:Sales:add_sale.html.twig', array('form' => $form->createView(), 'count' => $count,
@@ -318,7 +273,7 @@ class StockController extends Controller {
 
         foreach ($items as $item) {
             if ($item->getCategory()->getCategoryName() == $categoryName) {
-                array_push($results, $item->getSerialNo());
+                $results[$item->getItemId()] = $item->getSerialNo();
             }
         }
         if (sizeof($results) < 1) {
@@ -348,36 +303,6 @@ class StockController extends Controller {
         $results['weight_g'] = $weight_g;
         $results['weight_mg'] = $weight_mg;
         return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
-    }
-
-    public function viewUserLogsAction(Request $request) {
-        $form = $this->createForm(new UserLogType());
-        $form->handleRequest($request);
-        $em = $this->getDoctrine()->getEntityManager();
-        if ($form->isValid()) {
-            $username = $form['username']->getData()->getUsername();
-            $criteria1 = array_filter(array(
-                'username' => $username,
-            ));
-            $user = $this->getDoctrine()
-                    ->getRepository('StockManagerBundle:User')
-                    ->findOneBy($criteria1);
-            $user_id = $user->getId();
-            $criteria2 = array_filter(array(
-                'user_id' => $user_id,
-            ));
-
-            $result = $this->getDoctrine()
-                    ->getRepository('StockManagerBundle:UserLog')
-                    ->findBy($criteria2);
-            return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                        'form' => $form->createView(), 'result' => $result)
-            );
-        }
-        return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                    'form' => $form->createView(), 'result' => null
-                        )
-        );
     }
 
 }

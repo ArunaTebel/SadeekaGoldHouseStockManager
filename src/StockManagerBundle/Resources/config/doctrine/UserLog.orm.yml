@@ -1,0 +1,28 @@
+## YAML Template.
+---
+StockManagerBundle\Entity\UserLog:
+    type: entity
+    table: null
+    repositoryClass: StockManagerBundle\Entity\UserLogRepository
+    id:
+        log_id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        user_id:
+            type: integer
+        action:
+            type: string
+            length: 255
+        action_id:
+            type: integer
+        date:
+            type: datetime
+    manyToOne:
+       user:
+           targetEntity: User
+           joinColumn: 
+               name: user_id
+               referencedColumnName: id

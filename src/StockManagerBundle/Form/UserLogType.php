@@ -18,14 +18,6 @@ class UserLogType extends AbstractType {
             'mapped' => false,
             'required' => false,
             'empty_value' => 'All'));
-        $builder->add('date_range', 'choice', array(
-            'choices' => array('today' => 'Todays Logs', 'overall' => 'Overall Logs', 'between' => 'Logs Between'),
-            'mapped' => false,
-            'multiple' => false,
-            'expanded' => true,
-        ));
-        $builder->add('date_from', 'date', array('mapped' => 'false'));
-        $builder->add('date_to', 'date', array('mapped' => 'false'));
         $builder->add('View', 'submit');
     }
 

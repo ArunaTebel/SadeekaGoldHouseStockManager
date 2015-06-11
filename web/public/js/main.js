@@ -1,6 +1,7 @@
 $(document).ready(function () {
-
-    setSerialNumberByCategory();
+    if(typeof getItemSerialsByCategoryNameUrl !== 'undefined'){
+           setSerialNumberByCategory();
+    }
     $("#reports_date_from").hide();
     $("#reports_date_to").hide();
 

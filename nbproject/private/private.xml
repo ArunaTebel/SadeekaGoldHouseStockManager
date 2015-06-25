@@ -3,34 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/Resources/FOSUserBundle/views/layout.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/routing.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/UserLog.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/config/security.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/Resources/views/base.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/Resources/FOSUserBundle/views/Registration/register_content.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/SalesType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/ReportType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/Category.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/UserLogType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/UserLog.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/User.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/Sales.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/Resources/FOSUserBundle/views/Security/login.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Report/view_report.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/ItemType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/UserLogs/user_logs.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/Item.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/TemStockController.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController_temp.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Category.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/User.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/vendor/friendsofsymfony/user-bundle/Model/User.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/routing.yml</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/ItemType.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/SSMRegistrationFormType.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Sales/add_sale.html.twig</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/config/parameters.yml</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Category/add_category.html.twig</file>
         </group>
     </open-files>

@@ -17,7 +17,6 @@ use StockManagerBundle\Entity\UserLog;
 use StockManagerBundle\Form\UserLogType;
 
 class StockController extends Controller {
-
     public function addCategoryAction(Request $request) {
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
@@ -86,7 +85,29 @@ class StockController extends Controller {
     }
 
     public function addItemAction(Request $request) {
+        
         $item = new Item();
+        $em = $this->getDoctrine()->getEntityManager();
+        //$count = $result->getQuery()->getSingleScalarResult();
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('StockManagerBundle:Item')
+                ->findBy(array(), array( 'item_id' => 'DESC' ));
+         //dump($result[0]->getCategoryId());die;
+        $last_category_code=$result[0]->getCategory()->getCategoryCode();
+        $last_serial_no=$result[0]->getSerialNo();
+        $last_serial_id=str_replace($last_category_code,"",$last_serial_no);
+        $new_serial_id=$last_serial_id+1;
+        if($new_serial_id<10){
+           $new_serial_id= "000".$new_serial_id;
+        }else if($new_serial_id >= 10 & $new_serial_id < 100){
+            $new_serial_id= "00".$new_serial_id;
+        }else if($new_serial_id >= 100 & $new_serial_id < 1000){
+            $new_serial_id= "0".$new_serial_id;
+        }
+        $new_serial_no=$last_category_code.$new_serial_id;
+       // dump($new_serial_no);die;
+        $item->setCategory($result[0]->getCategory());
+        $item->setSerialNo($new_serial_no);
         $form = $this->createForm(new ItemType(), $item);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
@@ -105,6 +126,8 @@ class StockController extends Controller {
             $userLog->setDate($date);
             $em->persist($userLog);
             $em->flush($userLog);
+            $item->setCategoryId($category);
+          //  $next_serial_number -> $item->getSerialNo()
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
         }
         // Get Item List
@@ -355,31 +378,62 @@ class StockController extends Controller {
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
         if ($form->isValid()) {
-
-             $username = $form['username']->getData()->getUsername();
-             $criteria1 = array_filter(array(
-                        'username' => $username,
-                    ));
-             $user = $this->getDoctrine()
+            if ($form['username']->getData() == null) {
+                $username = "all";
+                $result = $this->getDoctrine()
+                        ->getRepository('StockManagerBundle:UserLog')
+                        ->findAll();
+            } else {
+                $username = $form['username']->getData()->getUsername();
+                $criteria1 = array_filter(array(
+                    'username' => $username,
+                ));
+                $user = $this->getDoctrine()
                         ->getRepository('StockManagerBundle:User')
                         ->findOneBy($criteria1);
-             $user_id=$user->getId();
-             $criteria2 = array_filter(array(
-                        'user_id' => $user_id,
-                    ));
-                
+                $user_id = $user->getId();
+
+                $criteria2 = array_filter(array(
+                    'user_id' => $user_id,
+                ));
+
                 $result = $this->getDoctrine()
                         ->getRepository('StockManagerBundle:UserLog')
                         ->findBy($criteria2);
-                return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                    'form' => $form->createView(),'result' => $result)
-        );
- 
+            }
+            return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
+                        'form' => $form->createView(), 'result' => $result)
+            );
         }
         return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
                     'form' => $form->createView(), 'result' => null
                         )
         );
     }
+    
+//     public function setNextCategoryAndSerialAction() {
+//                    
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $result = $em->createQueryBuilder()
+//                ->select('count(item.item_id)')
+//                ->from('StockManagerBundle:Item', 'item');
+//        $count = $result->getQuery()->getSingleScalarResult();
+//        $item = $this->getDoctrine()->getManager()
+//                ->getRepository('StockManagerBundle:Item')
+//                ->find($count);
+//        var_dump($item);die;
+//        $results = array();
+//        if ($item == null) {
+//            $results['success'] = false;
+//        }
+//        if (is_array($item)) {
+//            $item = $item[0];
+//        }
+//        $weight_g = $item->getWeightG();
+//        $weight_mg = $item->getWeightMg();
+//        $results['weight_g'] = $weight_g;
+//        $results['weight_mg'] = $weight_mg;
+//        return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
+//    }
 
 }

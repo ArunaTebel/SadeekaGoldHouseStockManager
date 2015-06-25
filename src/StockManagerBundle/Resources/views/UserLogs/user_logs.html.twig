@@ -13,23 +13,7 @@
                 {{ form_label(form.username) }}
                 {{ form_errors(form.username) }}
                 {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <br>
-            <div class="input-group form-widget">
-                {{ form_label(form.date_range) }}
-                {{ form_errors(form.date_range) }}
-                {{ form_widget(form.date_range, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <br>
-            <div class="input-group form-widget">
-                {{ form_errors(form.date_from) }}
-                {{ form_widget(form.date_from, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <br>
-            <div class="input-group form-widget">
-                {{ form_errors(form.date_to) }}
-                {{ form_widget(form.date_to, { 'attr': {'class': 'form-control'} }) }}
-            </div>
+            </div>       
             <br>
             <div class="input-group form-submit-btn">
                 {{ form_label(form.View) }}
@@ -42,9 +26,12 @@
         <div class="panel-heading">
             <h3 class="panel-title">User Logs</h3>
         </div>
-        <div class="panel-body form-panel-body">
+        <div class="panel-body form-panel-body" id="item-table" >
+            <div class="input-group form-widget">
+                <input class="search form-control" placeholder="Filter Items" />
+            </div>
             {% if result!=null %}
-                <table class="table">
+                <table class="table" >
                     <thead>
                         <tr>
                             <th> Action </th>
@@ -52,17 +39,26 @@
                             <th> Date </th>
                             <th> Time</th>
                         <tr>
+
                     </thead>
-                    {% for log in result %}
-                        <tr>
-                            <td>{{ log.getAction }}</td>
-                            <td>{{ log.getActionId}}</td>
-                            <td>{{ log.getDate|date('Y-m-d') }}</td>
-                            <td>{{ log.getDate|date('H:i:s')}}</td>
-                        </tr>
-                    {% endfor %}
+                    <tbody class="list">
+                        {% for log in result %}
+                            <tr>
+                                <td class="action">{{ log.getAction }}</td>
+                                <td class="action_id">{{ log.getActionId}}</td>
+                                <td class="date">{{ log.getDate|date('Y-m-d') }}</td>
+                                <td class="time">{{ log.getDate|date('H:i:s')}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             {% endif %}
         </div>
     </div>
+    <script>
+        var options = {
+            valueNames: ['date', 'time', 'action', 'action_id']
+        };
+        var itemList = new List('item-table', options);
+    </script>
 {% endblock %}

@@ -52,7 +52,15 @@
                                 <li><a href="{{path('StockManagerBundle_add_item')}}">Items</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{path('StockManagerBundle_view_reports')}}">Reports</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{path('StockManagerBundle_view_reports')}}">Sales Report</a></li>
+                                <li><a href="{{path('StockManagerBundle_view_user_logs')}}">User Logs</a></li>
+                                <li><a href="{{path('StockManagerBundle_view_total_stock_weight')}}">Total Stock Weight</a></li>
+                            </ul>
+                        </li>
+
                         <li><a class="warning" href="{{path('StockManagerBundle_add_sales')}}">New Sale</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -65,8 +73,8 @@
                             </li>
                         {% else %}
                             <li><a href="{{path('fos_user_security_login')}}">Login</a></li>
-{#                             <li><a href="{{path('fos_user_registration_register_content')}}">Register</a></li>#}
-                        {% endif %}
+                                {#                             <li><a href="{{path('fos_user_registration_register_content')}}">Register</a></li>#}
+                            {% endif %}
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

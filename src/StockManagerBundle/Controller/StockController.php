@@ -171,7 +171,7 @@ class StockController extends Controller {
         $result = $this->getDoctrine()
                 ->getRepository('StockManagerBundle:Item')
                 ->find($criteria);
-        $form = $this->createForm(new ItemType(), $result);
+        $form = $this->createForm(new ItemType(true), $result);
         $request = $this->get('request');
         $em = $this->getDoctrine()->getEntityManager();
         if ($request->isMethod('POST')) {
@@ -575,5 +575,27 @@ class StockController extends Controller {
         );
     }
 
- 
+
+
+    public function viewTotalStockWeightAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $sum_mg = $em->createQueryBuilder()
+                        ->select('sum(item.weight_mg)')
+                        ->from('StockManagerBundle:Item', 'item')
+                        ->getQuery()->getSingleScalarResult();
+        $sum_g = $em->createQueryBuilder()
+                        ->select('sum(item.weight_g)')
+                        ->from('StockManagerBundle:Item', 'item')
+                        ->getQuery()->getSingleScalarResult();
+        $total = $sum_g * 1000 + $sum_mg;
+        $total_kg = floor($total / 1000000);
+        $total_g = floor(($total / 1000000 - $total_kg) * 1000);
+        $total_mg = (int)((($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000);
+        return $this->render('StockManagerBundle:Default:view_total_stock_weight.html.twig', array(
+                    'total_kg' => $total_kg,
+                    'total_g' => $total_g,
+                    'total_mg' => $total_mg
+        ));
+    }
+
 }

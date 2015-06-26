@@ -74,8 +74,16 @@ StockManagerBundle_set_next_serialNoBy_category:
     requirements:
         _method:  GET|POST
 
+
 StockManagerBundle_view_summary:
     pattern:  /viewSummary
     defaults: { _controller: StockManagerBundle:Stock:viewSummary }
     requirements:
         _method:  GET|POST
+
+StockManagerBundle_view_total_stock_weight:
+    pattern:  /viewTotalStockWeight
+    defaults: { _controller: StockManagerBundle:Stock:viewTotalStockWeight }
+    requirements:
+        _method:  GET|POST
+

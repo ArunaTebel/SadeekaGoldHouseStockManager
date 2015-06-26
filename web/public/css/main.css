@@ -36,6 +36,13 @@ article{
     float: left;
 }
 
+#add-sales-weight-g, #add-sales-weight-mg{
+    width: 100px;
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
 #sales-log-table-panel{
     margin: 10px auto;
     width: 49%;
@@ -68,9 +75,11 @@ article{
     margin: 0 auto;
 }
 
-#stock-weight-input{
-    /*margin-right: 5px;*/
+#total-stock-weight-panel{
+    width: 650px;
+    margin: 0 auto;
 }
+
 .clickable-row:hover {
     background-color: #a6e1ec;
     cursor: pointer;

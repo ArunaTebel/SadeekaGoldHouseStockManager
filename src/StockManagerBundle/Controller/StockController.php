@@ -18,8 +18,10 @@ use StockManagerBundle\Form\UserLogType;
 
 class StockController extends Controller {
 
+
     const ADD_ITEM_ACTION = "ADD_ITEM";
     const ADD_SALES_ACTION = "ADD_SALES";
+
 
     public function addCategoryAction(Request $request) {
         $category = new Category();
@@ -103,26 +105,35 @@ class StockController extends Controller {
                 ->getRepository('StockManagerBundle:Item')
                 ->findBy(array(), array('item_id' => 'DESC'));
         //dump($result[0]->getCategoryId());die;
-        $last_category_code = $result[0]->getCategory()->getCategoryCode();
-        $last_serial_no = $result[0]->getSerialNo();
-        $last_serial_id = str_replace($last_category_code, "", $last_serial_no);
-        $new_serial_id = $last_serial_id + 1;
-        if ($new_serial_id < 10) {
-            $new_serial_id = "000" . $new_serial_id;
-        } else if ($new_serial_id >= 10 & $new_serial_id < 100) {
-            $new_serial_id = "00" . $new_serial_id;
-        } else if ($new_serial_id >= 100 & $new_serial_id < 1000) {
-            $new_serial_id = "0" . $new_serial_id;
+        if ($result != null) {
+            $last_category_code = $result[0]->getCategory()->getCategoryCode();
+            $last_serial_no = $result[0]->getSerialNo();
+            $last_serial_id = str_replace($last_category_code, "", $last_serial_no);
+            $new_serial_id = $last_serial_id + 1;
+            if ($new_serial_id < 10) {
+                $new_serial_id = "000" . $new_serial_id;
+            } else if ($new_serial_id >= 10 & $new_serial_id < 100) {
+                $new_serial_id = "00" . $new_serial_id;
+            } else if ($new_serial_id >= 100 & $new_serial_id < 1000) {
+                $new_serial_id = "0" . $new_serial_id;
+            }
+            $new_serial_no = $last_category_code . $new_serial_id;
+            // dump($new_serial_no);die;
+            $item->setCategory($result[0]->getCategory());
+            $item->setSerialNo($new_serial_no);
         }
-        $new_serial_no = $last_category_code . $new_serial_id;
-        // dump($new_serial_no);die;
-        $item->setCategory($result[0]->getCategory());
-        $item->setSerialNo($new_serial_no);
         $form = $this->createForm(new ItemType(), $item);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
         if ($form->isValid()) {
             $category = $form->getData('category_name');
+            $weight_mg = $form->getData('weight_mg')->getWeightMg();
+            $mod = $weight_mg % 10;
+            $sub = substr($weight_mg, 0, 2);
+            if ($mod != 0) {
+                $new_weight_mg = $sub . "0";
+            }
+            $item->setWeightMg($new_weight_mg);
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
             $em->flush();
@@ -303,10 +314,20 @@ class StockController extends Controller {
                 $result = $this->getDoctrine()
                         ->getRepository('StockManagerBundle:Sales')
                         ->findBy($criteria);
-//               dump($result);die;
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
                 // dump($result[0]->getWeightMG());die;
                 return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
-                            'result' => $result));
+                            'result' => $result, 'sum_g' => $sum_g, 'sum_mg' => $sum_mg));
             } else if ($choice == 'overall') {
                 if ($category != 'all') {
                     $criteria = array_filter(array(
@@ -320,8 +341,19 @@ class StockController extends Controller {
                             ->getRepository('StockManagerBundle:Sales')
                             ->findAll();
                 }
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
                 return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
-                            'result' => $result));
+                            'result' => $result, 'sum_g' => $sum_g, 'sum_mg' => $sum_mg));
             } else {
                 if ($category != 'all') {
                     $result = $this->getDoctrine()
@@ -343,13 +375,24 @@ class StockController extends Controller {
                             ->getQuery()
                             ->getResult();
                 }
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
                 return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
-                            'result' => $result));
+                            'result' => $result, 'sum_g' => $sum_g, 'sum_mg' => $sum_mg));
                 // dump($result);die;
             }
         }
         return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView()
-                    , 'result' => null));
+                    , 'result' => null, 'sum_g' => null, 'sum_mg' => null));
     }
 
     public function getItemSerialsByCategoryNameAction() {
@@ -457,31 +500,82 @@ class StockController extends Controller {
                     'date' => null
         ));
     }
+    public function setNextSerialNoByCategoryAction() {
+        $request = $this->container->get('request');
+        $categoryName = $request->request->get('categoryName');
+        //dump($categoryName);die;
+        $items = $this->getDoctrine()->getManager()
+                ->getRepository('StockManagerBundle:Item')
+                ->findBy(array(), array('item_id' => 'DESC'));
+        $results = array();
+        foreach ($items as $item) {
+            if ($item->getCategory()->getCategoryName() == $categoryName) {
+                array_push($results, $item);
+            }
+        }
+        if ($results != null) {
+            $last_category_code = $results[0]->getCategory()->getCategoryCode();
+            $last_serial_no = $results[0]->getSerialNo();
+            $last_serial_id = str_replace($last_category_code, "", $last_serial_no);
+            $new_serial_id = $last_serial_id + 1;
+            if ($new_serial_id < 10) {
+                $new_serial_id = "000" . $new_serial_id;
+            } else if ($new_serial_id >= 10 & $new_serial_id < 100) {
+                $new_serial_id = "00" . $new_serial_id;
+            } else if ($new_serial_id >= 100 & $new_serial_id < 1000) {
+                $new_serial_id = "0" . $new_serial_id;
+            }
+            $new_serial_no = $last_category_code . $new_serial_id;
+        } else {
+            $criteria = array_filter(array(
+                'category_name' => $categoryName,
+            ));
+            $category_obj = $this->getDoctrine()
+                    ->getRepository('StockManagerBundle:Category')
+                    ->findOneBy($criteria);
+            $new_category_code = $category_obj->getCategoryCode();
+            $new_serial_no = $new_category_code . "0001";
+        }
+        if ($item == null) {
+            $results['success'] = false;
+        }
+        return new \Symfony\Component\HttpFoundation\JsonResponse($new_serial_no, 200);
+    }
 
-//     public function setNextCategoryAndSerialAction() {
-//                    
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $result = $em->createQueryBuilder()
-//                ->select('count(item.item_id)')
-//                ->from('StockManagerBundle:Item', 'item');
-//        $count = $result->getQuery()->getSingleScalarResult();
-//        $item = $this->getDoctrine()->getManager()
-//                ->getRepository('StockManagerBundle:Item')
-//                ->find($count);
-//        var_dump($item);die;
-//        $results = array();
-//        if ($item == null) {
-//            $results['success'] = false;
-//        }
-//        if (is_array($item)) {
-//            $item = $item[0];
-//        }
-//        $weight_g = $item->getWeightG();
-//        $weight_mg = $item->getWeightMg();
-//        $results['weight_g'] = $weight_g;
-//        $results['weight_mg'] = $weight_mg;
-//        return new \Symfony\Component\HttpFoundation\JsonResponse($results, 200);
-//    }
+    public function viewSummaryAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $category_objects = $this->getDoctrine()->getManager()
+                                  ->getRepository('StockManagerBundle:Category')
+                                   ->findBy(array(), array('category_id' => 'DESC'));
+        $category_size = $category_objects[0]->getCategoryId();
+        $quantity = array();
+        for ($i = 1; $i <= $category_size; $i++) {
+            $temp_result = $this->getDoctrine()
+                    ->getRepository('StockManagerBundle:Item')
+                    ->createQueryBuilder('a')
+                    ->select('count(a.item_id)')
+                    ->where(' a.category_id= :category_id')
+                    ->setParameter('category_id', $i)
+                    ->getQuery()
+                    ->getResult();
+            array_push($quantity, $temp_result[0][1]);
+        }
+        $category_names = array();
+        $result_cat = $this->getDoctrine()
+                ->getRepository('StockManagerBundle:Category')
+                ->findAll();
+        foreach ($result_cat as $temp) {
+            array_push($category_names, $temp->getCategoryName());
+        }
+
+        $result = array_combine($category_names, $quantity);
+        return $this->render('StockManagerBundle:Summary:view_summary.html.twig', array(
+                    'result' => $result
+                        )
+        );
+    }
+
+
 
     public function viewTotalStockWeightAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();

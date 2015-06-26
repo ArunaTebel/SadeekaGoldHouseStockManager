@@ -1,7 +1,7 @@
 {# empty Twig template #}
 {% extends "::base.html.twig" %}
 {% block body %}
-    <div class="panel panel-primary form-panel">
+    <div class="panel panel-primary form-panel" id="user-log-form-panel">
         <div class="panel-heading">
             <h3 class="panel-title">View Logs</h3>
         </div>
@@ -15,6 +15,11 @@
                 {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
             </div>       
             <br>
+            {#<div class="input-group form-widget">
+                {{ form_errors(form.date) }}
+                {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
+            </div>       
+            <br>#}
             <div class="input-group form-submit-btn">
                 {{ form_label(form.View) }}
                 {{ form_widget(form.View, { 'attr': {'class': 'btn btn-primary'} }) }}
@@ -22,43 +27,120 @@
             {{ form_end(form) }}
         </div>
     </div>
-    <div class="panel panel-primary table-panel">
+    <div class="panel panel-primary table-panel" id="add-items-log-table-panel">
         <div class="panel-heading">
-            <h3 class="panel-title">User Logs</h3>
+            <h3 class="panel-title">Add Item Logs on {{date}}</h3>
         </div>
-        <div class="panel-body form-panel-body" id="item-table" >
+        <div class="panel-body form-panel-body" id="item-user-logs" >
             <div class="input-group form-widget">
                 <input class="search form-control" placeholder="Filter Items" />
             </div>
-            {% if result!=null %}
-                <table class="table" >
+            {% if add_item_logs != null %}
+                <table class="table" id="item-user-logs-table">
                     <thead>
                         <tr>
-                            <th> Action </th>
-                            <th> Action ID</th>
-                            <th> Date </th>
-                            <th> Time</th>
+                            <th> User ID </th>
+                            <th> Serial No</th>
+                            <th> Category </th>
+{#                            <th> Date</th>#}
+                            <th> Weight</th>
+                                {#                            <th> Action</th>#}
                         <tr>
 
                     </thead>
                     <tbody class="list">
-                        {% for log in result %}
-                            <tr>
-                                <td class="action">{{ log.getAction }}</td>
-                                <td class="action_id">{{ log.getActionId}}</td>
-                                <td class="date">{{ log.getDate|date('Y-m-d') }}</td>
-                                <td class="time">{{ log.getDate|date('H:i:s')}}</td>
+                        {% for category,logs_for_category in add_item_logs %}
+                            {% set category_weight_tot = 0 %}
+                            {% for log in logs_for_category %}
+                                <tr>
+                                    <td class="item-user-id">{{ log.getUserId }}</td>
+                                    <td class="item-serial-no">{{ log.getSerialNo}}</td>
+                                    <td class="item-category">{{ log.getCategory}}</td>
+{#                                    <td class="date">{{ log.getDate|date('Y-m-d') }}</td>#}
+                                    <td class="item-weight">{{ log.getWeightG}}g {{log.getWeightMg}}mg</td>
+                                    {#                                <td class="action">{{ log.getAction}}</td>#}
+                                </tr>
+                                {% set category_weight_tot = category_weight_tot + log.getWeightG * 1000 + log.getWeightMg %}
+                            {% endfor %}
+                            <tr >
+                                <td colspan="3" class="info">
+                                    <strong>Total weight for category "{{category}}" </strong>
+                                </td>
+                                <td colspan="1" class="danger">
+                                    {% set weight_tot_g = category_weight_tot // 1000 %}
+                                    {% set weight_tot_mg = category_weight_tot - weight_tot_g * 1000 %}
+                                    <strong>{{weight_tot_g}}g {{weight_tot_mg}}mg</strong>
+                                </td>
                             </tr>
+                            {% set category_weight_tot = 0 %}
                         {% endfor %}
                     </tbody>
                 </table>
             {% endif %}
         </div>
     </div>
+    <div class="panel panel-primary table-panel" id="sales-log-table-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Sales Logs on {{date}}</h3>
+        </div>
+        <div class="panel-body form-panel-body" id="sales-user-logs">
+            <div class="input-group form-widget">
+                <input class="search form-control" placeholder="Filter Items" />
+            </div>
+            {% if add_sales_logs != null %}
+                <table class="table" id="sales-user-logs-table">
+                    <thead>
+                        <tr>
+                            <th> User ID </th>
+                            <th> Serial No</th>
+                            <th> Category </th>
+{#                            <th> Date</th>#}
+                            <th> Weight</th>
+                                {#                            <th> Action</th>#}
+                        <tr>
+
+                    </thead>
+                    <tbody class="list">
+                        {% set sales_weight_tot = 0 %}
+                        {% for log in add_sales_logs %}
+                            <tr>
+                                <td class="sales-user-id">{{ log.getUserId }}</td>
+                                <td class="sales-serial-no">{{ log.getSerialNo}}</td>
+                                <td class="sales-category">{{ log.getCategory}}</td>
+{#                                <td class="date">{{ log.getDate|date('Y-m-d') }}</td>#}
+                                <td class="sales-weight">{{ log.getWeightG}}g {{log.getWeightMg}}mg</td>
+                                {#                                <td class="action">{{ log.getAction}}</td>#}
+                            </tr>
+                            {% set sales_weight_tot = sales_weight_tot + log.getWeightG * 1000 + log.getWeightMg %}
+                        {% endfor %}
+                        <tr >
+                            <td colspan="3" class="info">
+                                <strong>Total weight of sales on {{date}}</strong>
+                            </td>
+                            <td colspan="1" class="danger">
+                                {% set weight_tot_g = sales_weight_tot // 1000 %}
+                                {% set weight_tot_mg = sales_weight_tot - weight_tot_g * 1000 %}
+                                <strong>{{weight_tot_g}}g {{weight_tot_mg}}mg</strong>
+                            </td>
+                        </tr>
+                        {% set sales_weight_tot = 0 %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
     <script>
-        var options = {
-            valueNames: ['date', 'time', 'action', 'action_id']
+        var salesOptions = {
+            valueNames: ['sales-user-id', 'sales-serial-no', 'sales-category', 'sales-weight']
         };
-        var itemList = new List('item-table', options);
+        if ($("#sales-user-logs-table").length > 0) {
+            var itemList = new List('sales-user-logs', salesOptions);
+        }
+        var itemsOptions = {
+            valueNames: ['item-user-id', 'item-serial-no', 'item-category', 'item-weight']
+        };
+        if ($("#item-user-logs-table").length > 0) {
+            var itemList = new List('item-user-logs', itemsOptions);
+        }
     </script>
 {% endblock %}

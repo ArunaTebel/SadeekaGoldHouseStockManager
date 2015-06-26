@@ -65,10 +65,12 @@
         var getItemSerialsByCategoryNameUrl = '{{path('StockManagerBundle_get_item_serials_by_category')}}';
         var getItemWeightBySerialUrl = '{{path('StockManagerBundle_get_item_weight_by_serial')}}';
         $("#sales_category_name").chosen({
-            no_results_text: "Oops, nothing found!"
+            no_results_text: "Oops, nothing found!",
+            search_contains: true
         });
         $("#sales_serial_no").chosen({
-            no_results_text: "Oops, nothing found!"
+            no_results_text: "Oops, nothing found!",
+            search_contains: true 
         });
         $("#sales_date").datepicker({
             dateFormat: "yy-mm-dd"

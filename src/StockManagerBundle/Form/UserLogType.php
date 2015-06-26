@@ -18,6 +18,9 @@ class UserLogType extends AbstractType {
             'mapped' => false,
             'required' => false,
             'empty_value' => 'All'));
+        $builder->add('date', 'date', array(
+            'data' => new \DateTime()
+        ));
         $builder->add('View', 'submit');
     }
 

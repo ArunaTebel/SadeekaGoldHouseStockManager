@@ -1,4 +1,5 @@
 <?php
+// src/Acme/UserBundle/Entity/User.php
 
 namespace StockManagerBundle\Entity;
 

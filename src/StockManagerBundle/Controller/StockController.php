@@ -18,6 +18,11 @@ use StockManagerBundle\Form\UserLogType;
 
 class StockController extends Controller {
 
+
+    const ADD_ITEM_ACTION = "ADD_ITEM";
+    const ADD_SALES_ACTION = "ADD_SALES";
+
+
     public function addCategoryAction(Request $request) {
         $category = new Category();
         $form = $this->createForm(new CategoryType(), $category);
@@ -29,14 +34,17 @@ class StockController extends Controller {
             $user = $this->get('security.token_storage')->getToken()->getUser();
             date_default_timezone_set('Asia/Colombo');
             $date = date_create(date(date('Y-m-d H:i:s')));
-            $userLog = new UserLog();
-            $username = $user->getUsername();
-            $userLog->setUser($user);
-            $userLog->setAction("Add Category");
-            $userLog->setActionId($category->getCategoryId());
-            $userLog->setDate($date);
-            $em->persist($userLog);
-            $em->flush($userLog);
+            /** No User log needed for adding a category
+              $userLog = new UserLog();
+              $username = $user->getUsername();
+              $userLog->setUser($user);
+              $userLog->setAction("Add Category");
+              $userLog->setActionId($category->getCategoryId());
+              $userLog->setDate($date);
+              $em->persist($userLog);
+              $em->flush($userLog);
+             * 
+             */
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
         }
         // Get Category List
@@ -66,13 +74,16 @@ class StockController extends Controller {
                 $user = $this->get('security.token_storage')->getToken()->getUser();
                 date_default_timezone_set('Asia/Colombo');
                 $date = date_create(date(date('Y-m-d H:i:s')));
-                $userLog = new UserLog();
-                $userLog->setUser($user);
-                $userLog->setAction("Edit Category");
-                $userLog->setActionId($category_id);
-                $userLog->setDate($date);
-                $em->persist($userLog);
-                $em->flush($userLog);
+                /** No User log needed for editing a category
+                  $userLog = new UserLog();
+                  $userLog->setUser($user);
+                  $userLog->setAction("Edit Category");
+                  $userLog->setActionId($category_id);
+                  $userLog->setDate($date);
+                  $em->persist($userLog);
+                  $em->flush($userLog);
+                 * 
+                 */
                 return new RedirectResponse($this->generateUrl('StockManagerBundle_add_category'));
             }
         }
@@ -111,7 +122,6 @@ class StockController extends Controller {
             $item->setCategory($result[0]->getCategory());
             $item->setSerialNo($new_serial_no);
         }
-
         $form = $this->createForm(new ItemType(), $item);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
@@ -129,12 +139,15 @@ class StockController extends Controller {
             $em->flush();
             $user = $this->get('security.token_storage')->getToken()->getUser();
             date_default_timezone_set('Asia/Colombo');
-            $date = date_create(date(date('Y-m-d H:i:s')));
+            $date = date_create(date(date('Y-m-d')));
             $userLog = new UserLog();
             $userLog->setUser($user);
-            $userLog->setAction("Add Item");
-            $userLog->setActionId($item->getItemId());
+            $userLog->setAction(self::ADD_ITEM_ACTION);
+            $userLog->setSerialNo($item->getSerialNo());
+            $userLog->setCategory($item->getCategory()->getCategoryName());
             $userLog->setDate($date);
+            $userLog->setWeightG($item->getWeightG());
+            $userLog->setWeightMg($item->getWeightMg());
             $em->persist($userLog);
             $em->flush($userLog);
             $item->setCategoryId($category);
@@ -168,13 +181,16 @@ class StockController extends Controller {
                 $user = $this->get('security.token_storage')->getToken()->getUser();
                 date_default_timezone_set('Asia/Colombo');
                 $date = date_create(date(date('Y-m-d H:i:s')));
-                $userLog = new UserLog();
-                $userLog->setUser($user);
-                $userLog->setAction("Edit Item");
-                $userLog->setActionId($item_id);
-                $userLog->setDate($date);
-                $em->persist($userLog);
-                $em->flush($userLog);
+                /** No User log needed for editing an item
+                  $userLog = new UserLog();
+                  $userLog->setUser($user);
+                  $userLog->setAction("Edit Item");
+                  $userLog->setActionId($item_id);
+                  $userLog->setDate($date);
+                  $em->persist($userLog);
+                  $em->flush($userLog);
+                 * 
+                 */
                 return new RedirectResponse($this->generateUrl('StockManagerBundle_add_item'));
             }
         }
@@ -232,29 +248,36 @@ class StockController extends Controller {
         $total_kg = floor($total / 1000000);
         $total_g = floor(($total / 1000000 - $total_kg) * 1000);
         $total_mg = (($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000;
+//        dump($form->getData()->getSerialNo());die;
         if ($form->isValid()) {
             $serial_no = $form['serial_no']->getData()->getSerialNo();
+//            dump($serial_no);die;
             $date = $form['date']->getData();
             $dateTime = new \DateTime($date);
             $sales->setDate($dateTime);
             $em = $this->getDoctrine()->getManager();
+//            dump($serial_no);die;
             $em->persist($sales);
             $em->flush();
             $item = $em->getRepository('StockManagerBundle:Item')
                     ->findOneBy(array('serial_no' => $serial_no));
-            $em->remove($item);
-            $em->flush();
 
+//            dump($item->getItemId());die;
             $user = $this->get('security.token_storage')->getToken()->getUser();
             date_default_timezone_set('Asia/Colombo');
-            $date = date_create(date(date('Y-m-d H:i:s')));
+            $date = date_create(date(date('Y-m-d')));
             $userLog = new UserLog();
             $userLog->setUser($user);
-            $userLog->setAction("Add Sale");
-            $userLog->setActionId($sales->getSalesId());
+            $userLog->setAction(self::ADD_SALES_ACTION);
+            $userLog->setCategory($item->getCategory()->getCategoryName());
+            $userLog->setSerialNo($item->getSerialNo());
+            $userLog->setWeightG($item->getWeightG());
+            $userLog->setWeightMg($item->getWeightMg());
             $userLog->setDate($date);
             $em->persist($userLog);
             $em->flush($userLog);
+            $em->remove($item);
+            $em->flush();
             return new RedirectResponse($this->generateUrl('StockManagerBundle_add_sales'));
         }
         return $this->render('StockManagerBundle:Sales:add_sale.html.twig', array('form' => $form->createView(), 'count' => $count,
@@ -384,7 +407,7 @@ class StockController extends Controller {
 
         foreach ($items as $item) {
             if ($item->getCategory()->getCategoryName() == $categoryName) {
-                array_push($results, $item->getSerialNo());
+                array_push($results, $item->getItemId() . " " . $item->getSerialNo());
             }
         }
         if (sizeof($results) < 1) {
@@ -420,12 +443,17 @@ class StockController extends Controller {
         $form = $this->createForm(new UserLogType());
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getEntityManager();
+        $addItemLogs = $addSalesLogs = array();
         if ($form->isValid()) {
+            $date = $form['date']->getData();
             if ($form['username']->getData() == null) {
                 $username = "all";
+                $criteria = array_filter(array(
+                    'date' => $date,
+                ));
                 $result = $this->getDoctrine()
                         ->getRepository('StockManagerBundle:UserLog')
-                        ->findAll();
+                        ->findBy($criteria);
             } else {
                 $username = $form['username']->getData()->getUsername();
                 $criteria1 = array_filter(array(
@@ -444,16 +472,34 @@ class StockController extends Controller {
                         ->getRepository('StockManagerBundle:UserLog')
                         ->findBy($criteria2);
             }
+            foreach ($result as $userLog) {
+                if ($userLog->getAction() == self::ADD_ITEM_ACTION) {
+                    array_push($addItemLogs, $userLog);
+                } elseif ($userLog->getAction() == self::ADD_SALES_ACTION) {
+                    array_push($addSalesLogs, $userLog);
+                }
+            }
+            $grouped_item_logs = array();
+
+            foreach ($addItemLogs as $key => $item) {
+                $grouped_item_logs[$item->getCategory()][$key] = $item;
+            }
+//            dump($grouped_item_logs);
+//            die;
             return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                        'form' => $form->createView(), 'result' => $result)
-            );
+                        'form' => $form->createView(),
+                        'add_item_logs' => $grouped_item_logs,
+                        'add_sales_logs' => $addSalesLogs,
+                        'date' => $date->format('Y-m-d')
+            ));
         }
         return $this->render('StockManagerBundle:UserLogs:user_logs.html.twig', array(
-                    'form' => $form->createView(), 'result' => null
-                        )
-        );
+                    'form' => $form->createView(),
+                    'add_item_logs' => null,
+                    'add_sales_logs' => null,
+                    'date' => null
+        ));
     }
-
     public function setNextSerialNoByCategoryAction() {
         $request = $this->container->get('request');
         $categoryName = $request->request->get('categoryName');
@@ -529,4 +575,5 @@ class StockController extends Controller {
         );
     }
 
+ 
 }

@@ -17,10 +17,29 @@ article{
     float: left;
 }
 
+#user-log-form-panel{
+    width: 100%;
+    max-width: 100%;
+}
+
 .table-panel{
     width: 60%;
     max-width: 60%;
     margin: 0 auto;
+    float: right;
+}
+
+#add-items-log-table-panel{
+    margin: 10px auto;
+    width: 49%;
+    max-width: 49%;
+    float: left;
+}
+
+#sales-log-table-panel{
+    margin: 10px auto;
+    width: 49%;
+    max-width: 49%;
     float: right;
 }
 

@@ -22,12 +22,17 @@ class UserLog
     /**
      * @var string
      */
-    private $action;
+    private $serial_no;
 
     /**
      * @var integer
      */
-    private $action_id;
+    private $weight_g;
+
+    /**
+     * @var integer
+     */
+    private $weight_mg;
 
     /**
      * @var \DateTime
@@ -35,9 +40,9 @@ class UserLog
     private $date;
 
     /**
-     * @var \DateTime
+     * @var string
      */
-    private $time;
+    private $action;
 
     /**
      * @var \StockManagerBundle\Entity\User
@@ -79,49 +84,72 @@ class UserLog
     }
 
     /**
-     * Set action
+     * Set serial_no
      *
-     * @param string $action
+     * @param string $serialNo
      * @return UserLog
      */
-    public function setAction($action)
+    public function setSerialNo($serialNo)
     {
-        $this->action = $action;
+        $this->serial_no = $serialNo;
 
         return $this;
     }
 
     /**
-     * Get action
+     * Get serial_no
      *
      * @return string 
      */
-    public function getAction()
+    public function getSerialNo()
     {
-        return $this->action;
+        return $this->serial_no;
     }
 
     /**
-     * Set action_id
+     * Set weight_g
      *
-     * @param integer $actionId
+     * @param integer $weightG
      * @return UserLog
      */
-    public function setActionId($actionId)
+    public function setWeightG($weightG)
     {
-        $this->action_id = $actionId;
+        $this->weight_g = $weightG;
 
         return $this;
     }
 
     /**
-     * Get action_id
+     * Get weight_g
      *
      * @return integer 
      */
-    public function getActionId()
+    public function getWeightG()
     {
-        return $this->action_id;
+        return $this->weight_g;
+    }
+
+    /**
+     * Set weight_mg
+     *
+     * @param integer $weightMg
+     * @return UserLog
+     */
+    public function setWeightMg($weightMg)
+    {
+        $this->weight_mg = $weightMg;
+
+        return $this;
+    }
+
+    /**
+     * Get weight_mg
+     *
+     * @return integer 
+     */
+    public function getWeightMg()
+    {
+        return $this->weight_mg;
     }
 
     /**
@@ -148,26 +176,26 @@ class UserLog
     }
 
     /**
-     * Set time
+     * Set action
      *
-     * @param \DateTime $time
+     * @param string $action
      * @return UserLog
      */
-    public function setTime($time)
+    public function setAction($action)
     {
-        $this->time = $time;
+        $this->action = $action;
 
         return $this;
     }
 
     /**
-     * Get time
+     * Get action
      *
-     * @return \DateTime 
+     * @return string 
      */
-    public function getTime()
+    public function getAction()
     {
-        return $this->time;
+        return $this->action;
     }
 
     /**

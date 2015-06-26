@@ -13,13 +13,21 @@ StockManagerBundle\Entity\UserLog:
     fields:
         user_id:
             type: integer
-        action:
+        category:
+            type: string
+            lenght: 255
+        serial_no:
             type: string
             length: 255
-        action_id:
+        weight_g:
+            type: integer
+        weight_mg:
             type: integer
         date:
             type: datetime
+        action:
+            type: string
+            length: 255
     manyToOne:
        user:
            targetEntity: User

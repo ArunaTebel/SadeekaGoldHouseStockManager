@@ -72,7 +72,8 @@ $(document).ready(function () {
         function (response) {
             if (response['success'] !== false) {
                 $.each(response, function (i, value) {
-                    $('#sales_serial_no').append($('<option>').text(value).attr('value', i));
+                    var data = value.split(" ");
+                    $('#sales_serial_no').append($('<option>').text(data[1]).attr('value', data[0]));
                     $("#sales_weight_g").prop("disabled", false);
                     $("#sales_weight_mg").prop("disabled", false);
                     $("#sales_date").prop("disabled", false);
@@ -85,7 +86,7 @@ $(document).ready(function () {
                 $("#sales_date").attr('disabled', 'disabled');
                 $("#sales_Sell").attr('disabled', 'disabled');
             }
-            $("#sales_serial_no").trigger('chosen:updated');
+                    $("#sales_serial_no").trigger('chosen:updated');
 
         });
     }

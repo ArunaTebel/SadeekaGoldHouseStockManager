@@ -68,8 +68,14 @@ StockManagerBundle_view_user_logs:
     requirements:
         _method:  GET|POST
         
-StockManagerBundle_set_next_category_and_serial:
-    pattern:  /setNextCategoryAndSerial
-    defaults: { _controller: StockManagerBundle:Stock:setNextCategoryAndSerial }
+StockManagerBundle_set_next_serialNoBy_category:
+    pattern:  /setNextSerialNoByCategory
+    defaults: { _controller: StockManagerBundle:Stock:setNextSerialNoByCategory }
+    requirements:
+        _method:  GET|POST
+
+StockManagerBundle_view_summary:
+    pattern:  /viewSummary
+    defaults: { _controller: StockManagerBundle:Stock:viewSummary }
     requirements:
         _method:  GET|POST

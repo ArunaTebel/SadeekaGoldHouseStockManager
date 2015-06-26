@@ -5,12 +5,12 @@
         <group>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Category.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/routing.yml</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Report/view_report.html.twig</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/ItemType.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Sales/add_sale.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/app/config/parameters.yml</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Category/add_category.html.twig</file>
         </group>

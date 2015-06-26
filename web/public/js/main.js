@@ -4,22 +4,20 @@ $(document).ready(function () {
     }
     $("#reports_date_from").hide();
     $("#reports_date_to").hide();
-
     $("#sales_category_name").change(function () {
         setSerialNumberByCategory();
     });
-//    $('#category_weight_mg').bind('input', function () {
-////        alert("hii");
-//        var current_val= $(this).val();
-//        var mod=current_val %10;
-//        if(mod<5){
-//            current_val=mod+"0";
-//            $(this).val(current_val);
-//        }else{
-//              current_val=mod+1+"0";
-//               $(this).val(current_val);
-//        }
-//    });
+    $('#category_category').change(function () {
+        var nextCategoryName = $("#category_category>option:selected").text();
+        $("#category_serial_no").empty();
+        $.post(setNextSerialNoByCategoryUrl,
+                {'categoryName': nextCategoryName},
+        function (response) {
+            if (response['success'] !== false) {
+                    $('#category_serial_no').val(response);
+            } 
+        });
+    });
 
     $('input:radio[name="reports[sales_range]"]').change(
             function () {

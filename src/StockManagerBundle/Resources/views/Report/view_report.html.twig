@@ -63,5 +63,10 @@
                 </table>
             {% endif %}
         </div>
+        {% if sum_g !=null  %}
+        <div class="panel-footer">Total Weight - {{sum_g}}g       {{sum_mg}}mg
+            {#<div>230 </div>#}
+        </div>
+         {% endif %}
     </div>
 {% endblock %}

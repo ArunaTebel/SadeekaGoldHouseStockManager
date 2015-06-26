@@ -36,17 +36,18 @@ class SalesType extends AbstractType {
             'attr' => array(
                 'placeholder' => 'Weight (mg)',
             ),
-            'label' => false,
             'read_only' => true
         ));
         $builder->add('weight_mg', 'number', array(
             'attr' => array(
                 'placeholder' => 'Weight (mg)',
             ),
-            'label' => false,
             'read_only' => true
         ));
-        $builder->add('date', 'text');
+        $dt = new \DateTime();
+        $builder->add('date', 'text', array(
+            'data' => $dt->format('Y-m-d')
+        ));
         $builder->add('Sell', 'submit');
 
         

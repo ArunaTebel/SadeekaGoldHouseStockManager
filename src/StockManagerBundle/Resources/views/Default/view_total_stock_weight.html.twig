@@ -1,0 +1,19 @@
+{# empty Twig template #}
+{% extends "::base.html.twig" %}
+{% block body %}
+    <div class="panel panel-default" id="total-stock-weight-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Total Stock Weight</h3>
+        </div>
+        <div class="panel-body" id="stock-weight-panel-body">
+            <div class="input-group">
+                <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_kg}}">
+                <span class="input-group-addon" id="basic-addon2">Kg</span>
+                <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_g}}">
+                <span class="input-group-addon" id="basic-addon2">g</span>
+                <input id="stock-weight-input" disabled type="text" class="form-control" aria-describedby="basic-addon2" value="{{total_mg}}">
+                <span class="input-group-addon" id="basic-addon2">mg</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

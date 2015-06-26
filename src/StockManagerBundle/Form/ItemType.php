@@ -7,6 +7,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ItemType extends AbstractType {
 
+    protected $isEditForm = false;
+
+    public function __construct($isEditForm = false) {
+        $this->isEditForm = $isEditForm;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder->add('category', 'entity', array(
@@ -15,12 +21,16 @@ class ItemType extends AbstractType {
             'attr' => array(
                 'placeholder' => 'Category Name',
             ),
-            'label' => false));
+            'label' => false,
+            'disabled' => $this->isEditForm
+        ));
         $builder->add('serial_no', 'text', array(
             'attr' => array(
                 'placeholder' => 'Serial No.',
             ),
-            'label' => false));
+            'label' => false,
+            'disabled' => $this->isEditForm
+        ));
         $builder->add('weight_g', 'number', array(
             'attr' => array(
                 'placeholder' => 'Weight (g)',

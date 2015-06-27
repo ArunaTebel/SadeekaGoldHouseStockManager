@@ -18,10 +18,8 @@ use StockManagerBundle\Form\UserLogType;
 
 class StockController extends Controller {
 
-
     const ADD_ITEM_ACTION = "ADD_ITEM";
     const ADD_SALES_ACTION = "ADD_SALES";
-
 
     public function addCategoryAction(Request $request) {
         $category = new Category();
@@ -100,11 +98,9 @@ class StockController extends Controller {
 
         $item = new Item();
         $em = $this->getDoctrine()->getEntityManager();
-        //$count = $result->getQuery()->getSingleScalarResult();
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('StockManagerBundle:Item')
                 ->findBy(array(), array('item_id' => 'DESC'));
-        //dump($result[0]->getCategoryId());die;
         if ($result != null) {
             $last_category_code = $result[0]->getCategory()->getCategoryCode();
             $last_serial_no = $result[0]->getSerialNo();
@@ -128,11 +124,23 @@ class StockController extends Controller {
         if ($form->isValid()) {
             $category = $form->getData('category_name');
             $weight_mg = $form->getData('weight_mg')->getWeightMg();
-            $mod = $weight_mg % 10;
-            $sub = substr($weight_mg, 0, 2);
-            if ($mod != 0) {
-                $new_weight_mg = $sub . "0";
+            $num_of_digits = strlen($weight_mg);
+            if ($num_of_digits == 3) {
+                $mod = $weight_mg % 10;
+                $sub = substr($weight_mg, 0, 2);
+                if ($mod != 0) {
+                    $new_weight_mg = $sub . "0";
+                }
+            } else if ($num_of_digits == 2) {
+                 $mod = $weight_mg % 10;
+                 $sub = substr($weight_mg, 0, 1);
+                if ($mod != 0) {
+                    $new_weight_mg = $sub . "0";
+                }
+            } else if ($num_of_digits == 1) {
+                $new_weight_mg=0;
             }
+
             $item->setWeightMg($new_weight_mg);
             $em = $this->getDoctrine()->getManager();
             $em->persist($item);
@@ -500,6 +508,7 @@ class StockController extends Controller {
                     'date' => null
         ));
     }
+
     public function setNextSerialNoByCategoryAction() {
         $request = $this->container->get('request');
         $categoryName = $request->request->get('categoryName');
@@ -545,8 +554,8 @@ class StockController extends Controller {
     public function viewSummaryAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $category_objects = $this->getDoctrine()->getManager()
-                                  ->getRepository('StockManagerBundle:Category')
-                                   ->findBy(array(), array('category_id' => 'DESC'));
+                ->getRepository('StockManagerBundle:Category')
+                ->findBy(array(), array('category_id' => 'DESC'));
         $category_size = $category_objects[0]->getCategoryId();
         $quantity = array();
         for ($i = 1; $i <= $category_size; $i++) {
@@ -575,8 +584,6 @@ class StockController extends Controller {
         );
     }
 
-
-
     public function viewTotalStockWeightAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $sum_mg = $em->createQueryBuilder()
@@ -590,7 +597,7 @@ class StockController extends Controller {
         $total = $sum_g * 1000 + $sum_mg;
         $total_kg = floor($total / 1000000);
         $total_g = floor(($total / 1000000 - $total_kg) * 1000);
-        $total_mg = (int)((($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000);
+        $total_mg = (int) ((($total / 1000000 - $total_kg) * 1000 - $total_g) * 1000);
         return $this->render('StockManagerBundle:Default:view_total_stock_weight.html.twig', array(
                     'total_kg' => $total_kg,
                     'total_g' => $total_g,

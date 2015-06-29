@@ -4,29 +4,20 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/routing.yml</file>
-<<<<<<< HEAD
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Report/view_report.html.twig</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/ItemType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Sales/add_sale.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
-=======
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/config/doctrine/UserLog.orm.yml</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/UserLog.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Category.php</file>
->>>>>>> 16cf0f49e0ae8d234ddca490916370b3e8cd6ef3
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Category/add_category.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Sales.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/SalesType.php</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
             <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Report/view_report.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/UserLogs/user_logs.html.twig</file>
-            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Sales/add_sale.html.twig</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/UserLog.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Summary/view_summary.html.twig</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Item.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Item/add_item.html.twig</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/SalesType.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController_temp.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Category.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Form/UserLogType.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Controller/StockController.php</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/web/public/js/main.js</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Resources/views/Category/add_category.html.twig</file>
+            <file>file:/C:/xampp/htdocs/SadeekaGoldHouseStockManager/src/StockManagerBundle/Entity/Sales.php</file>
         </group>
     </open-files>
 </project-private>

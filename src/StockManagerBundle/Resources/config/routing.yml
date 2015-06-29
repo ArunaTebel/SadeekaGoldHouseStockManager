@@ -87,3 +87,14 @@ StockManagerBundle_view_total_stock_weight:
     requirements:
         _method:  GET|POST
 
+StockManagerBundle_view_summary_admin:
+    pattern:  /viewSummaryAdmin
+    defaults: { _controller: StockManagerBundle:Stock:viewSummaryAdmin }
+    requirements:
+        _method:  GET|POST
+        
+StockManagerBundle_view_reports_admin:
+    pattern:  /viewReportAdmin
+    defaults: { _controller: StockManagerBundle:Stock:viewReportAdmin }
+    requirements:
+        _method:  GET|POST

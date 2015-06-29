@@ -56,17 +56,27 @@
                         <tr>
                             <td>{{ sales.getSalesId }}</td>
                             <td>{{ sales.getSerialNo}}</td>
-                            <td>{{ sales.getWeightG }}</td>
-                            <td>{{ sales.getWeightMG}}</td>
+                            {% if is_granted('ROLE_SUPER_ADMIN')==false %}
+                                <td>{{ sales.getWeightG }}</td>
+                                <td>{{ sales.getWeightMG}}</td>
+                            {% endif %}
+                            {% if is_granted('ROLE_SUPER_ADMIN')%}
+                                 {% set half_total=(sales.getWeightG*1000 + sales.getWeightMG)/2%}
+                                  {% set half_g=half_total//1000 %}
+                                  {% set half_mg=half_total%1000%}
+                                  <td>{{ half_g }}</td>
+                                  <td>{{ half_mg}}</td>                               
+                            {% endif %}
+
                         </tr>
                     {% endfor %}
                 </table>
             {% endif %}
         </div>
         {% if sum_g !=null  %}
-        <div class="panel-footer">Total Weight - {{sum_g}}g       {{sum_mg}}mg
-            {#<div>230 </div>#}
-        </div>
-         {% endif %}
+            <div class="panel-footer">Total Weight - {{sum_g}}g       {{sum_mg}}mg
+                {#<div>230 </div>#}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

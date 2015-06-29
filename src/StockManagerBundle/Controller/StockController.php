@@ -132,13 +132,13 @@ class StockController extends Controller {
                     $new_weight_mg = $sub . "0";
                 }
             } else if ($num_of_digits == 2) {
-                 $mod = $weight_mg % 10;
-                 $sub = substr($weight_mg, 0, 1);
+                $mod = $weight_mg % 10;
+                $sub = substr($weight_mg, 0, 1);
                 if ($mod != 0) {
                     $new_weight_mg = $sub . "0";
                 }
             } else if ($num_of_digits == 1) {
-                $new_weight_mg=0;
+                $new_weight_mg = 0;
             }
 
             $item->setWeightMg($new_weight_mg);
@@ -185,6 +185,26 @@ class StockController extends Controller {
         if ($request->isMethod('POST')) {
             $form->submit($request);
             if ($form->isValid()) {
+                $weight_mg = $form->getData('weight_mg')->getWeightMg();
+                $num_of_digits = strlen($weight_mg);
+                if ($num_of_digits == 3) {
+                    $mod = $weight_mg % 10;
+                    $sub = substr($weight_mg, 0, 2);
+                    if ($mod != 0) {
+                        $new_weight_mg = $sub . "0";
+                    }
+                } else if ($num_of_digits == 2) {
+                    $mod = $weight_mg % 10;
+                    $sub = substr($weight_mg, 0, 1);
+                    if ($mod != 0) {
+                        $new_weight_mg = $sub . "0";
+                    }
+                } else if ($num_of_digits == 1) {
+                    $new_weight_mg = 0;
+                }  
+                $result->setWeightMg($new_weight_mg);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($result);
                 $em->flush();
                 $user = $this->get('security.token_storage')->getToken()->getUser();
                 date_default_timezone_set('Asia/Colombo');
@@ -603,6 +623,130 @@ class StockController extends Controller {
                     'total_g' => $total_g,
                     'total_mg' => $total_mg
         ));
+    }
+
+    public function viewReportAdminAction(Request $request) {
+        $form = $this->createForm(new ReportType());
+        $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+            $choice = $form['sales_range']->getData();
+            if ($form['category_name']->getData() == null) {
+                $category = "all";
+            } else {
+                $category = $form['category_name']->getData()->getCategoryName();
+            }
+            // $category = $form['category_name']->getData()->getCategoryName();
+            // dump($category);
+            $date_from = $form['date_from']->getData();
+            $date_to = $form['date_to']->getData();
+            $date = date_create(date(date('Y-m-d')));
+            $em = $this->getDoctrine()->getManager();
+            if ($choice == 'today') {
+                if ($category != 'all') {
+                    $criteria = array_filter(array(
+                        'date' => $date,
+                        'category_name' => $category,
+                    ));
+                } else {
+                    $criteria = array_filter(array(
+                        'date' => $date,
+                    ));
+                }
+                $result = $this->getDoctrine()
+                        ->getRepository('StockManagerBundle:Sales')
+                        ->findBy($criteria);
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
+                $half_total = ($sum_g * 1000 + $sum_mg) / 2;
+                $temp_w = $half_total / 1000;
+                $half_g = substr($temp_w, 0, 1);
+                $half_mg = $half_total % 1000;
+                // dump($half_g ." ".$half_mg);die;
+                // dump($result[0]->getWeightMG());die;
+                return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
+                            'result' => $result, 'sum_g' => $half_g, 'sum_mg' => $half_mg));
+            } else if ($choice == 'overall') {
+                if ($category != 'all') {
+                    $criteria = array_filter(array(
+                        'category_name' => $category,
+                    ));
+                    $result = $this->getDoctrine()
+                            ->getRepository('StockManagerBundle:Sales')
+                            ->findBy($criteria);
+                } else {
+                    $result = $this->getDoctrine()
+                            ->getRepository('StockManagerBundle:Sales')
+                            ->findAll();
+                }
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
+                $half_total = ($sum_g * 1000 + $sum_mg) / 2;
+                $temp_w = $half_total / 1000;
+                $half_g = substr($temp_w, 0, 1);
+                $half_mg = $half_total % 1000;
+                return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
+                            'result' => $result, 'sum_g' => $half_g, 'sum_mg' => $half_mg));
+            } else {
+                if ($category != 'all') {
+                    $result = $this->getDoctrine()
+                            ->getRepository('StockManagerBundle:Sales')
+                            ->createQueryBuilder('a')
+                            ->where('a.date BETWEEN :from AND :to AND a.category_name= :category')
+                            ->setParameter('from', $date_from)
+                            ->setParameter('to', $date_to)
+                            ->setParameter('category', $category)
+                            ->getQuery()
+                            ->getResult();
+                } else {
+                    $result = $this->getDoctrine()
+                            ->getRepository('StockManagerBundle:Sales')
+                            ->createQueryBuilder('a')
+                            ->where('a.date BETWEEN :from AND :to')
+                            ->setParameter('from', $date_from)
+                            ->setParameter('to', $date_to)
+                            ->getQuery()
+                            ->getResult();
+                }
+                $sum_g = 0;
+                $sum_mg = 0;
+                foreach ($result as $sale) {
+                    $sum_mg += $sale->getWeightMg();
+                    $sum_g +=$sale->getWeightG();
+                }
+                if ($sum_mg > 1000) {
+                    $temp = $sum_mg % 1000;
+                    $sum_g = $sum_g + substr($sum_mg, 0, 1);
+                    $sum_mg = $temp;
+                }
+                $half_total = ($sum_g * 1000 + $sum_mg) / 2;
+                $temp_w = $half_total / 1000;
+                $half_g = substr($temp_w, 0, 1);
+                $half_mg = $half_total % 1000;
+                return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView(),
+                            'result' => $result, 'sum_g' => $half_g, 'sum_mg' => $half_mg));
+                // dump($result);die;
+            }
+        }
+        return $this->render('StockManagerBundle:Report:view_report.html.twig', array('form' => $form->createView()
+                    , 'result' => null, 'sum_g' => null, 'sum_mg' => null));
     }
 
 }

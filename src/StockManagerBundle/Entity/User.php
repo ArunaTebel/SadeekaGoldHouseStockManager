@@ -32,4 +32,9 @@ class User extends BaseUser
     {
         return $this->id;
     }
+    
+    public function isGranted($role)
+    {
+        return in_array($role, $this->getRoles());
+    }
 }

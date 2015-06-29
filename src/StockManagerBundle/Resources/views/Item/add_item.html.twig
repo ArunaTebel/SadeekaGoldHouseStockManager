@@ -1,6 +1,9 @@
 {% extends "::base.html.twig" %}
 {% block body %}
-    <div class="panel panel-primary form-panel">
+    <button type="button" class="btn btn-default" aria-label="Left Align" id="show-item-list">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span id="item-list-toggle-btn"> View Items</span>
+    </button>
+    <div class="panel panel-primary form-panel" id="item-form">
         <div class="panel-heading">
             <h3 class="panel-title">Add Item</h3>
         </div>
@@ -18,12 +21,13 @@
                 {{ form_widget(form.serial_no, { 'attr': {'class': 'form-control'} }) }}
             </div>
             <br>
-            <div class="input-group form-widget">
+            <div class="input-group form-widget" id="add-sales-weight-g">
+                {{ form_label(form.weight_g) }}
                 {{ form_errors(form.weight_g) }}
                 {{ form_widget(form.weight_g, { 'attr': {'class': 'form-control'} }) }}
             </div>
-            <br>
-            <div class="input-group form-widget">
+            <div class="input-group form-widget" id="add-sales-weight-mg">
+                {{ form_label(form.weight_mg) }}
                 {{ form_errors(form.weight_mg) }}
                 {{ form_widget(form.weight_mg, { 'attr': {'class': 'form-control'} }) }}
             </div>
@@ -35,7 +39,7 @@
             {{ form_end(form) }}
         </div>
     </div>
-    <div class="panel panel-primary table-panel">
+        <div class="panel panel-primary table-panel scrollable-table" id="item-list">
         <div class="panel-heading">
             <h3 class="panel-title">Existing Items</h3>
         </div>
@@ -107,5 +111,20 @@
             search_contains: true
         });
         var setNextSerialNoByCategoryUrl = '{{path('StockManagerBundle_set_next_serialNoBy_category')}}';
+        $(document).ready(function () {
+            $("#item-list").hide();
+            $("#item-form").css('float', 'none');
+            $("#item-form").css('margin', '0-auto');
+            $("#show-item-list").click(function () {
+                $("#item-list").toggle();
+                if ($("#item-form").css('float') === 'left') {
+                    $("#item-form").css('float', 'none');
+                    $("#item-list-toggle-btn").html(" View Items");
+                } else {
+                    $("#item-form").css('float', 'left');
+                    $("#item-list-toggle-btn").html(" Hide Items");
+                }
+            });
+        });
     </script>
 {% endblock %}

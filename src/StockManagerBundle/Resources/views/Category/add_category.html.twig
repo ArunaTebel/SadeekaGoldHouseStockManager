@@ -1,8 +1,12 @@
 {% extends "::base.html.twig" %}
 {% block body %}
-    <div class="panel panel-primary form-panel">
+    <button type="button" class="btn btn-default" aria-label="Left Align" id="show-category-list">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span id="cat-list-toggle-btn"> View Categories</span>
+    </button>
+    <div class="panel panel-primary form-panel" id="category-form">
         <div class="panel-heading">
             <h3 class="panel-title">Add Category</h3>
+
         </div>
         <div class="panel-body form-panel-body">
             {{ form_start(form) }}
@@ -25,7 +29,8 @@
             {{ form_end(form) }}
         </div>
     </div>
-    <div class="panel panel-primary table-panel">
+
+    <div class="panel panel-primary table-panel scrollable-table" id="category-list">
         <div class="panel-heading">
             <h3 class="panel-title">Existing Categories</h3>
         </div>
@@ -87,5 +92,20 @@
         };
 
         var categoryList = new List('category-table', options);
+        $(document).ready(function () {
+            $("#category-list").hide();
+            $("#category-form").css('float', 'none');
+            $("#category-form").css('margin', '0-auto');
+            $("#show-category-list").click(function () {
+                $("#category-list").toggle();
+                if ($("#category-form").css('float') === 'left') {
+                    $("#category-form").css('float', 'none');
+                    $("#cat-list-toggle-btn").html(" View Categories");
+                } else {
+                    $("#category-form").css('float', 'left');
+                    $("#cat-list-toggle-btn").html(" Hide Categories");
+                }
+            });
+        });
     </script>
 {% endblock %}

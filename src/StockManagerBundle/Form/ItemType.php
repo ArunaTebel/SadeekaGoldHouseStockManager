@@ -34,13 +34,11 @@ class ItemType extends AbstractType {
         $builder->add('weight_g', 'number', array(
             'attr' => array(
                 'placeholder' => 'Weight (g)',
-            ),
-            'label' => false));
+        )));
         $builder->add('weight_mg', 'number', array(
             'attr' => array(
                 'placeholder' => 'Weight (mg)',
-            ),
-            'label' => false));
+        )));
         $builder->add('Save', 'submit');
     }
 

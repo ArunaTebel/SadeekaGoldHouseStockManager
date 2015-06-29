@@ -39,9 +39,15 @@ security:
                 target: /login
             anonymous:    true
 
-#    access_control:
-##        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-###        - { path: ^/register, role: ROLE_ADMIN }
-##        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-##        - { path: ^/admin/, role: ROLE_ADMIN }
-##        - { path: ^/*, role: ROLE_USER }
+    access_control:
+        - { path: ^/addCategory$, role: ROLE_ADMIN }
+        - { path: ^/viewReport$, role: ROLE_ADMIN }
+        - { path: ^/viewUserLogs$, role: ROLE_ADMIN }
+        - { path: ^/viewTotalStockWeight$, role: ROLE_ADMIN }
+        - { path: ^/viewSummary$, role: ROLE_ADMIN }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register/confirmed$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: ROLE_ADMIN }
+        - { path: ^/resetting, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/*, role: ROLE_USER }

@@ -201,7 +201,7 @@ class StockController extends Controller {
                     }
                 } else if ($num_of_digits == 1) {
                     $new_weight_mg = 0;
-                }  
+                }
                 $result->setWeightMg($new_weight_mg);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($result);
@@ -256,6 +256,9 @@ class StockController extends Controller {
     }
 
     public function addSalesAction(Request $request) {
+        if ($this->getUser()->getUsername() == 'audit') {
+            return new RedirectResponse($this->generateUrl('StockManagerBundle_view_summary'));
+        }
         $sales = new Sales();
         $form = $this->createForm(new SalesType(), $sales);
         $form->handleRequest($request);

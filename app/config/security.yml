@@ -40,14 +40,15 @@ security:
             anonymous:    true
 
     access_control:
-        - { path: ^/addCategory$, role: ROLE_ADMIN }
+        - { path: ^/addSales$, role: [ROLE_SUPER_ADMIN, ROLE_USER] }
+        - { path: ^/addCategory$, role: ROLE_SUPER_ADMIN }
         - { path: ^/viewReport$, role: ROLE_ADMIN }
-        - { path: ^/viewUserLogs$, role: ROLE_ADMIN }
-        - { path: ^/viewTotalStockWeight$, role: ROLE_ADMIN }
+        - { path: ^/viewUserLogs$, role: ROLE_SUPER_ADMIN }
+        - { path: ^/viewTotalStockWeight$, role: ROLE_SUPER_ADMIN }
         - { path: ^/viewSummary$, role: ROLE_ADMIN }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register/confirmed$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: ROLE_ADMIN }
-        - { path: ^/resetting, role: ROLE_ADMIN }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/register, role: ROLE_SUPER_ADMIN }
+        - { path: ^/resetting, role: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
         - { path: ^/*, role: ROLE_USER }

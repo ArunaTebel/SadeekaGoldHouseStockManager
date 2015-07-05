@@ -56,11 +56,11 @@
                         <tr>
                             <td>{{ sales.getSalesId }}</td>
                             <td>{{ sales.getSerialNo}}</td>
-                            {% if is_granted('ROLE_SUPER_ADMIN')==false %}
+                            {% if is_granted('ROLE_ADMIN')==false %}
                                 <td>{{ sales.getWeightG }}</td>
                                 <td>{{ sales.getWeightMG}}</td>
                             {% endif %}
-                            {% if is_granted('ROLE_SUPER_ADMIN')%}
+                            {% if is_granted('ROLE_ADMIN')%}
                                  {% set half_total=(sales.getWeightG*1000 + sales.getWeightMG)/2%}
                                   {% set half_g=half_total//1000 %}
                                   {% set half_mg=half_total%1000%}

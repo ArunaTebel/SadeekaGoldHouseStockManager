@@ -29,7 +29,7 @@ class ItemType extends AbstractType {
                 'placeholder' => 'Serial No.',
             ),
             'label' => false,
-            'disabled' => $this->isEditForm
+            'read_only' => true
         ));
         $builder->add('weight_g', 'number', array(
             'attr' => array(
